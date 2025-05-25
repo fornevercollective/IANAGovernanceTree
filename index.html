@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IANA Governance Tree</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+    header {
+      background-color: #002b45;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    main {
+      max-width: 960px;
+      margin: 2rem auto;
+      padding: 1rem;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    h1, h2 {
+      color: #002b45;
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: #eee;
+      margin-top: 2rem;
+    }
+    .button {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background-color: #007acc;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+    .button:hover {
+      background-color: #005fa3;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>IANA Governance Tree</h1>
+    <p>Mapping Internet Governance from IANA to Local Networks</p>
+  </header>
+  <main>
+    <h2>About This Project</h2>
+    <p>
+      This project provides a structured model of internet governance from IANA down to local ISPs and servers, organized by Regional Internet Registries (RIRs): ARIN, LACNIC, RIPE NCC, AFRINIC, and APNIC. It helps visualize and interpret traceroute data across global jurisdictions.
+    </p>
+    <h2>Repository</h2>
+    <p>
+      Visit the GitHub repository:
+      <a href="https://github.com/fornevercollective/IANAGovernanceTree" class="button" target="_blank">
+        <i class="fab fa-github"></i> View on GitHub
+      </a>
+    </p>
+    <h2>Features</h2>
+    <ul>
+      <li>Hierarchical JSON database of IANA & RIRs</li>
+      <li>Traceroute parser and governance resolver tools</li>
+      <li>GeoIP and WHOIS integration</li>
+      <li>Governance tree visualizations</li>
+    </ul>
+    <h2>License</h2>
+    <p>Open source, licensed under MIT or another permissive license of your choice.</p>
+  </main>
+  <footer>
+    &copy; 2025 Fornever Collective · <a href="https://github.com/fornevercollective">GitHub</a>
+  </footer>
+</body>
+</html>
