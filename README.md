@@ -1,7 +1,8 @@
 # IANAGovernanceTree
 IANA Governance Tree
-![F3633B8A-9000-489A-AEA3-ECF88935C71E](https://github.com/user-attachments/assets/a4bd9960-2f32-4584-a448-db85659bccfd = 250x)
-
+-
+![F3633B8A-9000-489A-AEA3-ECF88935C71E](https://github.com/user-attachments/assets/a4bd9960-2f32-4584-a448-db85659bccfd "IANA" {width=120px height=120px})
+-
 Who Owns IANA?
 
 The Internet Assigned Numbers Authority (IANA) is not “owned” in a traditional sense. It is operated by the Internet Corporation for Assigned Names and Numbers (ICANN) and governed by the global internet community.
