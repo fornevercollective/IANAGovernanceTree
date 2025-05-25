@@ -1,6 +1,33 @@
 # IANAGovernanceTree
 IANA Governance Tree
 
+Who Owns IANA?
+
+The Internet Assigned Numbers Authority (IANA) is not “owned” in a traditional sense. It is operated by the Internet Corporation for Assigned Names and Numbers (ICANN) and governed by the global internet community.
+
+Governance Summary:
+	•	IANA Functions Operator:
+→ ICANN (Internet Corporation for Assigned Names and Numbers)
+ICANN manages IANA and performs:
+	•	Global IP address allocations (delegated to RIRs)
+	•	DNS root zone management
+	•	Protocol parameter assignments (in coordination with IETF)
+	•	Policy Authority:
+	•	Global Multistakeholder Community: Includes governments, private sector, academia, civil society
+	•	IETF (Internet Engineering Task Force): Defines technical standards
+	•	RIRs (e.g., ARIN, RIPE NCC): Regional implementation of IP policy
+	•	U.S. Government (formerly):
+	•	IANA was historically overseen by the U.S. Department of Commerce (NTIA)
+	•	In October 2016, the U.S. transitioned stewardship of IANA to the global multistakeholder community via ICANN
+
+⸻
+
+TL;DR:
+IANA is operated by ICANN, which is governed by a global multistakeholder community. It is not owned by any single entity or government.
+
+⸻
+
+
 iana-governance-tree/
 ├── README.md
 ├── data/
