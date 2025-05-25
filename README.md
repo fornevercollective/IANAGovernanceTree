@@ -1,6 +1,6 @@
 # IANAGovernanceTree
 IANA Governance Tree
-<img info="![F3633B8A-9000-489A-AEA3-ECF88935C71E]" href=""https://github.com/user-attachments/assets/a4bd9960-2f32-4584-a448-db85659bccfd" />
+![F3633B8A-9000-489A-AEA3-ECF88935C71E](https://github.com/user-attachments/assets/a4bd9960-2f32-4584-a448-db85659bccfd)
 
 Who Owns IANA?
 
