@@ -1,6 +1,6 @@
 # IANAGovernanceTree
 IANA Governance Tree
-![F3633B8A-9000-489A-AEA3-ECF88935C71E](https://github.com/user-attachments/assets/a4bd9960-2f32-4584-a448-db85659bccfd)
+![F3633B8A-9000-489A-AEA3-ECF88935C71E](https://github.com/user-attachments/assets/a4bd9960-2f32-4584-a448-db85659bccfd = 250x)
 
 Who Owns IANA?
 
@@ -28,7 +28,7 @@ IANA is operated by ICANN, which is governed by a global multistakeholder commun
 
 ⸻
 
-# 
+## 
 iana-governance-tree/
 ├── README.md
 ├── data/
@@ -52,4 +52,43 @@ iana-governance-tree/
 │   ├── traceroute_config.yaml    # Config file for traceroute parsing and thresholds
 │   ├── rirs.yaml                 # RIR metadata (region, URL, WHOIS formats)
 └── LICENSE                       # Optional open source license
-# 
+## 
+
+
+
+> The IANA (Internet Assigned Numbers Authority) governance model is a system of multistakeholder cooperation and coordination. It involves various organizations like ICANN, IETF, and RIRs working together to manage and distribute internet resources. IANA's primary function is to allocate IP addresses and manage the DNS root, ensuring a stable and functional internet infrastructure. This model is characterized by open communication, public reporting, and independent reviews, fostering transparency and accountability. 
+Here's a more detailed breakdown:
+Key Players and Their Roles:
+ICANN:
+.
+Oversees the IANA and manages the DNS root and generic top-level domains (gTLDs).
+IANA:
+.
+Allocates IP addresses and manages the DNS root, working closely with ICANN and other organizations.
+IETF:
+.
+Sets policies and standards for internet protocols, coordinating with IANA to assign and maintain these parameters.
+Regional Internet Registries (RIRs):
+.
+Distribute IP addresses within specific regions, collaborating with IANA to ensure a global allocation system. 
+Governance Principles:
+Multistakeholder Governance:
+A system where various groups (government, industry, civil society, technical community) participate in decision-making. 
+Open Communication and Transparency:
+Regular consultations, public reporting, and independent performance reviews ensure transparency and accountability. 
+Coordination and Collaboration:
+IAna, ICANN, IETF, and RIRs work together to maintain a stable and functional internet. 
+Technical Expertise:
+The IETF, for example, provides the technical expertise for protocol development and management. 
+Key Areas of Management:
+IP Addresses:
+.
+IANA allocates IP addresses to RIRs, which then distribute them to local Internet registries. 
+DNS Root:
+.
+IANA manages the root zone of the DNS, which is the foundation of the internet's domain name system. 
+Protocol Parameters:
+.
+IANA coordinates with the IETF to manage and allocate protocol parameters used in internet communication. 
+In essence, the IANA governance map reflects a distributed and collaborative approach to managing the internet. This ensures a stable, functional, and open internet for everyone..
+> 
