@@ -1,10 +1,10 @@
-<img width="1200" alt="iana 0" src="https://github.com/user-attachments/assets/3fb0916b-1e26-408a-a301-c748adf751f4" />
+
 <img width="1200" alt="iana 1" src="https://github.com/user-attachments/assets/9b992c05-23fb-4983-9b4b-5861334b68ef" />
 
 # IANAGovernanceTree
 IANA Governance Tree
 -
-
+<img width="1200" alt="iana 0" src="https://github.com/user-attachments/assets/3fb0916b-1e26-408a-a301-c748adf751f4" />
 -
 Who Owns IANA?
 
