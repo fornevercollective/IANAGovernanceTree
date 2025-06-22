@@ -1,83 +1,687 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IANA Governance Tree</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background-color: #f4f4f4;
-      color: #333;
-    }
-    header {
-      background-color: #002b45;
-      color: white;
-      padding: 1rem;
-      text-align: center;
-    }
-    main {
-      max-width: 960px;
-      margin: 2rem auto;
-      padding: 1rem;
-      background-color: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-    h1, h2 {
-      color: #002b45;
-    }
-    footer {
-      text-align: center;
-      padding: 1rem;
-      background-color: #eee;
-      margin-top: 2rem;
-    }
-    .button {
-      display: inline-block;
-      padding: 0.5rem 1rem;
-      background-color: #007acc;
-      color: white;
-      text-decoration: none;
-      border-radius: 4px;
-      transition: background-color 0.3s;
-    }
-    .button:hover {
-      background-color: #005fa3;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internet Infrastructure Explorer</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- React and ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Babel for JSX transformation -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Lucide React Icons -->
+    <script src="https://unpkg.com/lucide-react@latest/dist/umd/lucide-react.js"></script>
+    
+    <!-- Custom Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        background: 'var(--background)',
+                        foreground: 'var(--foreground)',
+                        card: 'var(--card)',
+                        'card-foreground': 'var(--card-foreground)',
+                        primary: 'var(--primary)',
+                        'primary-foreground': 'var(--primary-foreground)',
+                        secondary: 'var(--secondary)',
+                        'secondary-foreground': 'var(--secondary-foreground)',
+                        muted: 'var(--muted)',
+                        'muted-foreground': 'var(--muted-foreground)',
+                        accent: 'var(--accent)',
+                        'accent-foreground': 'var(--accent-foreground)',
+                        destructive: 'var(--destructive)',
+                        'destructive-foreground': 'var(--destructive-foreground)',
+                        border: 'var(--border)',
+                        input: 'var(--input)',
+                        ring: 'var(--ring)',
+                    },
+                    borderRadius: {
+                        lg: 'var(--radius)',
+                        md: 'calc(var(--radius) - 2px)',
+                        sm: 'calc(var(--radius) - 4px)',
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <!-- Custom CSS Variables -->
+    <style>
+        :root {
+            --background: #ffffff;
+            --foreground: #0a0a0a;
+            --card: #ffffff;
+            --card-foreground: #0a0a0a;
+            --primary: #171717;
+            --primary-foreground: #fafafa;
+            --secondary: #f5f5f5;
+            --secondary-foreground: #171717;
+            --muted: #f5f5f5;
+            --muted-foreground: #737373;
+            --accent: #f5f5f5;
+            --accent-foreground: #171717;
+            --destructive: #ef4444;
+            --destructive-foreground: #fafafa;
+            --border: #e5e5e5;
+            --input: #e5e5e5;
+            --ring: #171717;
+            --radius: 0.5rem;
+        }
+        
+        .dark {
+            --background: #0a0a0a;
+            --foreground: #fafafa;
+            --card: #0a0a0a;
+            --card-foreground: #fafafa;
+            --primary: #fafafa;
+            --primary-foreground: #171717;
+            --secondary: #262626;
+            --secondary-foreground: #fafafa;
+            --muted: #262626;
+            --muted-foreground: #a3a3a3;
+            --accent: #262626;
+            --accent-foreground: #fafafa;
+            --destructive: #7f1d1d;
+            --destructive-foreground: #fafafa;
+            --border: #262626;
+            --input: #262626;
+            --ring: #d4d4d8;
+        }
+        
+        body {
+            background-color: var(--background);
+            color: var(--foreground);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        .size-4 { width: 1rem; height: 1rem; }
+        .size-5 { width: 1.25rem; height: 1.25rem; }
+        .size-6 { width: 1.5rem; height: 1.5rem; }
+        .size-8 { width: 2rem; height: 2rem; }
+        .size-10 { width: 2.5rem; height: 2.5rem; }
+        .size-12 { width: 3rem; height: 3rem; }
+        
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .transition-all {
+            transition: all 0.3s ease-in-out;
+        }
+        
+        .transition-transform {
+            transition: transform 0.2s ease-in-out;
+        }
+        
+        .transition-colors {
+            transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <h1>IANA Governance Tree</h1>
-    <p>Mapping Internet Governance from IANA to Local Networks</p>
-  </header>
-  <main>
-    <h2>About This Project</h2>
-    <p>
-      This project provides a structured model of internet governance from IANA down to local ISPs and servers, organized by Regional Internet Registries (RIRs): ARIN, LACNIC, RIPE NCC, AFRINIC, and APNIC. It helps visualize and interpret traceroute data across global jurisdictions.
-    </p>
-    <h2>Repository</h2>
-    <p>
-      Visit the GitHub repository:
-      <a href="https://github.com/fornevercollective/IANAGovernanceTree" class="button" target="_blank">
-        <i class="fab fa-github"></i> View on GitHub
-      </a>
-    </p>
-    <h2>Features</h2>
-    <ul>
-      <li>Hierarchical JSON database of IANA & RIRs</li>
-      <li>Traceroute parser and governance resolver tools</li>
-      <li>GeoIP and WHOIS integration</li>
-      <li>Governance tree visualizations</li>
-    </ul>
-    <h2>License</h2>
-    <p>Open source, licensed under MIT or another permissive license of your choice.</p>
-  </main>
-  <footer>
-    &copy; 2025 Fornever Collective · <a href="https://github.com/fornevercollective">GitHub</a>
-  </footer>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { 
+            Globe, 
+            Network, 
+            BarChart4, 
+            Laptop, 
+            Settings, 
+            ChevronDown, 
+            ChevronRight, 
+            Search, 
+            Loader2, 
+            Sun, 
+            Moon, 
+            FileDigit, 
+            Key, 
+            Shield, 
+            Brain,
+            Server,
+            Database,
+            Target,
+            Folder,
+            FolderOpen,
+            Play,
+            ExternalLink,
+            Info,
+            Terminal,
+            LineChart
+        } = lucide;
+
+        // Mock data for demonstration
+        const mockTraceData = [
+            { id: 'dns', name: 'Root DNS Server', type: 'dns', latency: 35, ipAddress: '198.41.0.4', organization: 'ICANN' },
+            { id: 'tld', name: 'TLD DNS Server (.com)', type: 'dns', latency: 48, ipAddress: '192.5.6.30', organization: 'Verisign' },
+            { id: 'auth', name: 'Authoritative DNS', type: 'dns', latency: 62, ipAddress: '104.16.100.52', organization: 'Cloudflare' },
+            { id: 'cdn', name: 'CDN Edge Server', type: 'cdn', latency: 85, ipAddress: '104.18.22.41', organization: 'Cloudflare' },
+            { id: 'origin', name: 'Origin Server', type: 'server', latency: 120, ipAddress: '172.67.73.119', organization: 'AWS' }
+        ];
+
+        // Button Component
+        const Button = ({ children, variant = 'default', size = 'default', className = '', onClick, disabled = false, ...props }) => {
+            const baseClasses = 'inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50';
+            
+            const variants = {
+                default: 'bg-primary text-primary-foreground hover:bg-primary/90',
+                outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
+                ghost: 'hover:bg-accent hover:text-accent-foreground',
+                secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
+            };
+            
+            const sizes = {
+                default: 'h-10 px-4 py-2',
+                sm: 'h-9 rounded-md px-3',
+                lg: 'h-11 rounded-md px-8',
+                icon: 'h-10 w-10'
+            };
+            
+            return (
+                <button
+                    className={`${baseClasses} ${variants[variant]} ${sizes[size]} ${className}`}
+                    onClick={onClick}
+                    disabled={disabled}
+                    {...props}
+                >
+                    {children}
+                </button>
+            );
+        };
+
+        // Card Component
+        const Card = ({ children, className = '', ...props }) => (
+            <div className={`rounded-lg border bg-card text-card-foreground shadow-sm ${className}`} {...props}>
+                {children}
+            </div>
+        );
+
+        // Input Component
+        const Input = ({ className = '', ...props }) => (
+            <input
+                className={`flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${className}`}
+                {...props}
+            />
+        );
+
+        // Badge Component
+        const Badge = ({ children, variant = 'default', className = '' }) => {
+            const variants = {
+                default: 'bg-primary text-primary-foreground hover:bg-primary/80',
+                secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+                outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
+                destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/80'
+            };
+            
+            return (
+                <div className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold transition-colors ${variants[variant]} ${className}`}>
+                    {children}
+                </div>
+            );
+        };
+
+        // Header Component
+        const Header = ({ toggleTheme, isDarkMode }) => (
+            <header className="border-b bg-background/80 backdrop-blur-sm sticky top-0 z-50">
+                <div className="container mx-auto flex items-center justify-between py-4 px-4">
+                    <div className="flex items-center space-x-4">
+                        <div className="flex items-center space-x-2">
+                            <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                                <Network className="size-4 text-primary" />
+                            </div>
+                            <div>
+                                <h1 className="text-lg font-semibold">Infrastructure Explorer</h1>
+                                <p className="text-xs text-muted-foreground">Network Analysis & Governance</p>
+                            </div>
+                        </div>
+                    </div>
+                    <Button variant="ghost" size="icon" onClick={toggleTheme}>
+                        {isDarkMode ? <Sun className="size-4" /> : <Moon className="size-4" />}
+                    </Button>
+                </div>
+            </header>
+        );
+
+        // Tree Menu Component
+        const TreeMenu = ({ isExpanded, onToggle }) => {
+            const [expandedNodes, setExpandedNodes] = useState(new Set(['network', 'analysis']));
+            
+            const toggleNode = (nodeId) => {
+                setExpandedNodes(prev => {
+                    const newSet = new Set(prev);
+                    if (newSet.has(nodeId)) {
+                        newSet.delete(nodeId);
+                    } else {
+                        newSet.add(nodeId);
+                    }
+                    return newSet;
+                });
+            };
+
+            const treeData = [
+                {
+                    id: 'network',
+                    label: 'Network Analysis',
+                    icon: <Network className="size-4" />,
+                    children: [
+                        { id: 'tracer', label: 'Website Tracer', icon: <Laptop className="size-4" /> },
+                        { id: 'dns', label: 'DNS Lookup', icon: <Globe className="size-4" /> },
+                        { id: 'ports', label: 'Port Scanner', icon: <Server className="size-4" /> }
+                    ]
+                },
+                {
+                    id: 'analysis',
+                    label: 'Data Analysis',
+                    icon: <Brain className="size-4" />,
+                    children: [
+                        { id: 'pcap', label: 'PCAP Analysis', icon: <FileDigit className="size-4" /> },
+                        { id: 'crypto', label: 'Cryptography', icon: <Key className="size-4" /> },
+                        { id: 'security', label: 'Security Tools', icon: <Shield className="size-4" /> }
+                    ]
+                },
+                {
+                    id: 'governance',
+                    label: 'Governance',
+                    icon: <Database className="size-4" />,
+                    children: [
+                        { id: 'iana', label: 'IANA Hierarchy', icon: <Network className="size-4" /> },
+                        { id: 'registries', label: 'Registries', icon: <Database className="size-4" /> }
+                    ]
+                }
+            ];
+
+            const renderTreeNode = (node, level = 0) => {
+                const isNodeExpanded = expandedNodes.has(node.id);
+                const hasChildren = node.children && node.children.length > 0;
+                const paddingLeft = level * 12 + 8;
+
+                return (
+                    <div key={node.id}>
+                        <div 
+                            className="flex items-center gap-2 py-2 px-2 rounded-md cursor-pointer hover:bg-muted/50 transition-colors group"
+                            style={{ paddingLeft: `${paddingLeft}px` }}
+                            onClick={() => hasChildren && toggleNode(node.id)}
+                        >
+                            {hasChildren && (
+                                <div className="flex items-center justify-center w-4 h-4">
+                                    {isNodeExpanded ? 
+                                        <ChevronDown className="size-3 text-muted-foreground" /> : 
+                                        <ChevronRight className="size-3 text-muted-foreground" />
+                                    }
+                                </div>
+                            )}
+                            {!hasChildren && <div className="w-4 h-4" />}
+                            
+                            <div className="flex items-center justify-center w-6 h-6 rounded">
+                                {hasChildren ? (
+                                    isNodeExpanded ? <FolderOpen className="size-4 text-muted-foreground" /> : <Folder className="size-4 text-muted-foreground" />
+                                ) : (
+                                    <div className="text-primary bg-primary/10 rounded p-1">
+                                        {node.icon}
+                                    </div>
+                                )}
+                            </div>
+                            
+                            <span className="text-sm font-medium text-foreground">{node.label}</span>
+                            
+                            {!hasChildren && (
+                                <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity h-6 w-6 p-0 ml-auto">
+                                    <Play className="size-3" />
+                                </Button>
+                            )}
+                        </div>
+                        
+                        {hasChildren && isNodeExpanded && (
+                            <div className="space-y-1">
+                                {node.children.map(child => renderTreeNode(child, level + 1))}
+                            </div>
+                        )}
+                    </div>
+                );
+            };
+
+            return (
+                <Card className="overflow-hidden">
+                    <div className="flex items-center justify-between px-6 py-4 border-b border-border/40">
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                                <Settings className="size-5 text-primary" />
+                            </div>
+                            <div>
+                                <h2 className="font-medium">Operations Tree</h2>
+                                <p className="text-sm text-muted-foreground">Available tools and workflows</p>
+                            </div>
+                        </div>
+                        <Button variant="ghost" size="sm" onClick={onToggle} className="flex items-center gap-2">
+                            <span className="text-sm">{isExpanded ? 'Collapse' : 'Expand'}</span>
+                            <ChevronDown className={`size-4 transition-transform duration-200 ${isExpanded ? 'rotate-180' : 'rotate-0'}`} />
+                        </Button>
+                    </div>
+
+                    <div className={`transition-all duration-300 ease-in-out overflow-hidden ${isExpanded ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                        <div className="p-4">
+                            <div className="space-y-1 max-h-80 overflow-y-auto">
+                                {treeData.map(node => renderTreeNode(node))}
+                            </div>
+                        </div>
+                    </div>
+                </Card>
+            );
+        };
+
+        // Website Tracer Hero Component
+        const WebsiteTracer = ({ isExpanded, onToggle }) => {
+            const [url, setUrl] = useState('');
+            const [isTracing, setIsTracing] = useState(false);
+            const [traceResults, setTraceResults] = useState(null);
+
+            const handleTrace = async () => {
+                if (!url) return;
+                setIsTracing(true);
+                
+                // Simulate tracing
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                setTraceResults(mockTraceData);
+                setIsTracing(false);
+            };
+
+            return (
+                <div className="bg-accent rounded-lg overflow-hidden">
+                    <div className="flex items-center justify-between px-6 py-4 border-b border-border/40">
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                                <Globe className="size-5 text-primary" />
+                            </div>
+                            <div>
+                                <h2 className="font-medium">Internet Infrastructure Explorer</h2>
+                                <p className="text-sm text-muted-foreground">Trace website infrastructure to IANA governance</p>
+                            </div>
+                        </div>
+                        <Button variant="ghost" size="sm" onClick={onToggle} className="flex items-center gap-2">
+                            <span className="text-sm">{isExpanded ? 'Collapse' : 'Expand'}</span>
+                            <ChevronDown className={`size-4 transition-transform duration-200 ${isExpanded ? 'rotate-180' : 'rotate-0'}`} />
+                        </Button>
+                    </div>
+
+                    <div className={`transition-all duration-300 ease-in-out overflow-hidden ${isExpanded ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                        <div className="px-6 py-8">
+                            <div className="max-w-3xl mx-auto text-center mb-6">
+                                <h1 className="text-3xl font-bold mb-3">Internet Infrastructure Explorer</h1>
+                                <p className="text-muted-foreground mb-6 mx-auto max-w-2xl">
+                                    Trace any website's complete signal flow through DNS, IP addressing, and hosting
+                                    infrastructure to visualize how it connects to the IANA governance structure.
+                                </p>
+                                
+                                <div className="flex gap-2 max-w-xl mx-auto mb-6">
+                                    <div className="relative flex-grow">
+                                        <Globe className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground size-4" />
+                                        <Input
+                                            placeholder="Enter website URL (e.g., example.com)"
+                                            value={url}
+                                            onChange={(e) => setUrl(e.target.value)}
+                                            className="pl-10 h-12 text-base"
+                                        />
+                                    </div>
+                                    <Button onClick={handleTrace} disabled={isTracing || !url} size="lg" className="px-6">
+                                        {isTracing ? (
+                                            <>
+                                                <Loader2 className="size-4 mr-2 animate-spin" />
+                                                Tracing...
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Search className="size-4 mr-2" />
+                                                Trace Website
+                                            </>
+                                        )}
+                                    </Button>
+                                </div>
+                            </div>
+                            
+                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto">
+                                <FeatureButton icon={<Globe />} title="DNS Infrastructure" description="Root servers to TLD" />
+                                <FeatureButton icon={<Server />} title="Hosting Analysis" description="CDNs and origin servers" />
+                                <FeatureButton icon={<Database />} title="Registry Data" description="IANA and RIRs" />
+                                <FeatureButton icon={<BarChart4 />} title="Performance Metrics" description="Latency and response time" />
+                            </div>
+
+                            {traceResults && (
+                                <div className="mt-8 max-w-4xl mx-auto">
+                                    <Card className="p-6">
+                                        <div className="flex justify-between items-center mb-6">
+                                            <div>
+                                                <h4 className="text-lg font-semibold">Signal Flow Visualization</h4>
+                                                <p className="text-muted-foreground">Complete path from user request to server response</p>
+                                            </div>
+                                            <Button variant="outline" size="sm" className="gap-1.5">
+                                                <ExternalLink className="size-4" />
+                                                View {url}
+                                            </Button>
+                                        </div>
+                                        
+                                        <div className="space-y-4">
+                                            {traceResults.map((step, index) => (
+                                                <div key={step.id} className="flex items-center gap-4 p-4 border rounded-lg">
+                                                    <div className="flex-shrink-0">
+                                                        <div className="w-8 h-8 bg-primary/10 text-primary rounded-full flex items-center justify-center font-medium">
+                                                            {index + 1}
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex-grow">
+                                                        <div className="flex items-center gap-2 mb-1">
+                                                            <h5 className="font-medium">{step.name}</h5>
+                                                            <Badge variant="outline" className="text-xs">
+                                                                {step.type.toUpperCase()}
+                                                            </Badge>
+                                                        </div>
+                                                        <p className="text-sm text-muted-foreground">
+                                                            {step.ipAddress} • {step.organization}
+                                                        </p>
+                                                    </div>
+                                                    <div className="flex-shrink-0 text-right">
+                                                        <div className="text-sm font-medium">{step.latency}ms</div>
+                                                        <div className="text-xs text-muted-foreground">latency</div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </Card>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // Feature Button Component
+        const FeatureButton = ({ icon, title, description }) => (
+            <div className="flex flex-col items-center text-center p-3 rounded-lg transition-colors hover:bg-primary/5 cursor-pointer">
+                <div className="flex items-center gap-2 mb-1">
+                    <div className="w-8 h-8 flex items-center justify-center rounded-full bg-primary/10 text-primary">
+                        {React.cloneElement(icon, { className: "size-4" })}
+                    </div>
+                    <div className="font-medium text-sm">{title}</div>
+                </div>
+                <div className="text-xs text-muted-foreground">{description}</div>
+            </div>
+        );
+
+        // Main Tab Component
+        const MainTab = ({ id, label, icon, isActive, onClick }) => (
+            <button
+                className={`pb-2 px-1 flex items-center gap-1.5 ${
+                    isActive ? 'border-b-2 border-primary font-medium' : 'text-muted-foreground hover:text-foreground'
+                }`}
+                onClick={onClick}
+            >
+                {icon}
+                {label}
+            </button>
+        );
+
+        // Main App Component
+        const App = () => {
+            const [darkMode, setDarkMode] = useState(false);
+            const [activeTab, setActiveTab] = useState('website-tracer');
+            const [isTreeMenuExpanded, setIsTreeMenuExpanded] = useState(true);
+            const [isTracerExpanded, setIsTracerExpanded] = useState(true);
+
+            useEffect(() => {
+                if (darkMode) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            }, [darkMode]);
+
+            const toggleTheme = () => setDarkMode(!darkMode);
+
+            return (
+                <div className="flex flex-col min-h-screen bg-background text-foreground">
+                    <Header toggleTheme={toggleTheme} isDarkMode={darkMode} />
+                    
+                    <div className="container mx-auto px-4 py-4">
+                        <TreeMenu 
+                            isExpanded={isTreeMenuExpanded} 
+                            onToggle={() => setIsTreeMenuExpanded(!isTreeMenuExpanded)} 
+                        />
+                    </div>
+                    
+                    <div className="container mx-auto px-4 py-4">
+                        <WebsiteTracer 
+                            isExpanded={isTracerExpanded} 
+                            onToggle={() => setIsTracerExpanded(!isTracerExpanded)} 
+                        />
+                    </div>
+                    
+                    <main className="flex-1 container mx-auto py-6 px-4">
+                        <Card className="p-6">
+                            <h2 className="text-xl font-semibold mb-4">Internet Governance and Infrastructure Explorer</h2>
+                            
+                            <div className="border-b mb-6">
+                                <div className="flex space-x-6">
+                                    <MainTab 
+                                        id="governance" 
+                                        label="Governance Structure" 
+                                        icon={<Network className="size-4" />}
+                                        isActive={activeTab === "governance"}
+                                        onClick={() => setActiveTab("governance")}
+                                    />
+                                    <MainTab 
+                                        id="website-tracer" 
+                                        label="Website Tracer" 
+                                        icon={<Laptop className="size-4" />}
+                                        isActive={activeTab === "website-tracer"}
+                                        onClick={() => setActiveTab("website-tracer")}
+                                    />
+                                    <MainTab 
+                                        id="data-analysis" 
+                                        label="Data Analysis" 
+                                        icon={<BarChart4 className="size-4" />}
+                                        isActive={activeTab === "data-analysis"}
+                                        onClick={() => setActiveTab("data-analysis")}
+                                    />
+                                </div>
+                            </div>
+                            
+                            <div className="space-y-6">
+                                {activeTab === 'governance' && (
+                                    <div>
+                                        <h3 className="text-lg font-semibold mb-4">Internet Governance Structure</h3>
+                                        <p className="text-muted-foreground mb-4">
+                                            Explore the hierarchical structure of internet governance, from IANA to regional registries and CDN providers.
+                                        </p>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                            <Card className="p-4">
+                                                <h4 className="font-medium mb-2">IANA (Internet Assigned Numbers Authority)</h4>
+                                                <p className="text-sm text-muted-foreground">Global coordination of DNS root, IP addressing, and protocol parameters.</p>
+                                            </Card>
+                                            <Card className="p-4">
+                                                <h4 className="font-medium mb-2">Regional Internet Registries</h4>
+                                                <p className="text-sm text-muted-foreground">ARIN, RIPE, APNIC, LACNIC, and AFRINIC manage regional IP allocation.</p>
+                                            </Card>
+                                            <Card className="p-4">
+                                                <h4 className="font-medium mb-2">CDN Providers</h4>
+                                                <p className="text-sm text-muted-foreground">Cloudflare, Akamai, AWS CloudFront, and other content delivery networks.</p>
+                                            </Card>
+                                        </div>
+                                    </div>
+                                )}
+                                
+                                {activeTab === 'website-tracer' && (
+                                    <div>
+                                        <h3 className="text-lg font-semibold mb-4">Website Signal Flow Tracer</h3>
+                                        <p className="text-muted-foreground mb-4">
+                                            Trace a website's complete signal flow through internet infrastructure, DNS, IP addressing, 
+                                            and hosting entities to visualize how it relates to the IANA governance structure.
+                                        </p>
+                                        <div className="text-center py-8">
+                                            <p className="text-muted-foreground">Use the Website Tracer section above to analyze any website's infrastructure.</p>
+                                        </div>
+                                    </div>
+                                )}
+                                
+                                {activeTab === 'data-analysis' && (
+                                    <div>
+                                        <h3 className="text-lg font-semibold mb-4">Data Analysis Tools</h3>
+                                        <p className="text-muted-foreground mb-4">
+                                            Comprehensive suite of network analysis, security, and data processing tools.
+                                        </p>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                            <Card className="p-4">
+                                                <div className="flex items-center gap-2 mb-2">
+                                                    <FileDigit className="size-4 text-primary" />
+                                                    <h4 className="font-medium">PCAP Analysis</h4>
+                                                </div>
+                                                <p className="text-sm text-muted-foreground">Analyze network packet captures to identify traffic patterns and security issues.</p>
+                                            </Card>
+                                            <Card className="p-4">
+                                                <div className="flex items-center gap-2 mb-2">
+                                                    <Brain className="size-4 text-primary" />
+                                                    <h4 className="font-medium">ML Analysis</h4>
+                                                </div>
+                                                <p className="text-sm text-muted-foreground">Machine learning models for data analysis and pattern recognition.</p>
+                                            </Card>
+                                            <Card className="p-4">
+                                                <div className="flex items-center gap-2 mb-2">
+                                                    <Shield className="size-4 text-primary" />
+                                                    <h4 className="font-medium">Security Tools</h4>
+                                                </div>
+                                                <p className="text-sm text-muted-foreground">Comprehensive security analysis and penetration testing tools.</p>
+                                            </Card>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        </Card>
+                    </main>
+                    
+                    <footer className="border-t py-4 text-center text-muted-foreground text-sm bg-card">
+                        <div className="container mx-auto">
+                            Internet Infrastructure Explorer &copy; 2024. Data provided for illustrative purposes only.
+                        </div>
+                    </footer>
+                </div>
+            );
+        };
+
+        // Render the app
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
 </body>
 </html>

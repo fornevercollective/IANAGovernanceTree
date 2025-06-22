@@ -1,98 +1,136 @@
 
-<img width="1200" alt="iana 1" src="https://github.com/user-attachments/assets/9b992c05-23fb-4983-9b4b-5861334b68ef" />
+# Internet Infrastructure Explorer
 
-# IANAGovernanceTree
-IANA Governance Tree
--
-<img width="1200" alt="iana 0" src="https://github.com/user-attachments/assets/3fb0916b-1e26-408a-a301-c748adf751f4" />
--
-Who Owns IANA?
+A comprehensive web application for analyzing and visualizing internet governance structures, website trace routes, and network data flow.
 
-The Internet Assigned Numbers Authority (IANA) is not “owned” in a traditional sense. It is operated by the Internet Corporation for Assigned Names and Numbers (ICANN) and governed by the global internet community.
+![Internet Infrastructure Explorer](https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2000&auto=format&fit=crop)
 
-Governance Summary:
-	•	IANA Functions Operator:
-→ ICANN (Internet Corporation for Assigned Names and Numbers)
-ICANN manages IANA and performs:
-	•	Global IP address allocations (delegated to RIRs)
-	•	DNS root zone management
-	•	Protocol parameter assignments (in coordination with IETF)
-	•	Policy Authority:
-	•	Global Multistakeholder Community: Includes governments, private sector, academia, civil society
-	•	IETF (Internet Engineering Task Force): Defines technical standards
-	•	RIRs (e.g., ARIN, RIPE NCC): Regional implementation of IP policy
-	•	U.S. Government (formerly):
-	•	IANA was historically overseen by the U.S. Department of Commerce (NTIA)
-	•	In October 2016, the U.S. transitioned stewardship of IANA to the global multistakeholder community via ICANN
+## 🚀 Features
 
-⸻
+- **Website Tracer**: Visualize how websites connect through DNS, IP addressing, and hosting infrastructure
+- **IANA Governance Structure**: Interactive vertical hierarchical tree visualization of internet governance
+- **Terminal Output**: Text-based representation for command-line tools and proxy instancing
+- **Advanced Data Analysis Tools**:
+  - PCAP Analysis and packet inspection
+  - Interactive Hex Editor (similar to hexed.it)
+  - PGP and Cryptography Tools
+  - SocialBlade metrics integration
+  - Security diagnostic tools
+  - Bug Bounty programs explorer
+  - API inspection capabilities
 
-TL;DR:
-IANA is operated by ICANN, which is governed by a global multistakeholder community. It is not owned by any single entity or government.
+## 📋 Prerequisites
 
-⸻
+- Node.js 18.x or higher
+- npm 9.x or higher (or yarn/pnpm)
 
-## 
-iana-governance-tree/
-├── README.md
-├── data/
-│   ├── iana.json                 # Core governance hierarchy (IANA → RIRs → ISPs)
-│   ├── rir_asn_map.csv           # ASN to RIR mapping (for IP block ownership)
-│   ├── asn_ownership.csv         # ASN → Organization names
-│   ├── ip_to_asn.db              # SQLite DB for fast IP-to-ASN lookup
-├── tools/
-│   ├── traceroute_parser.py      # Script to parse traceroute output and resolve governance
-│   ├── geoip_lookup.py           # GeoIP resolution tool (optional)
-│   ├── whois_resolver.py         # WHOIS resolution for IP or ASN ownership
-├── visualizations/
-│   ├── governance_tree_diagram.png  # Diagram of the governance tree (optional graphic)
-│   ├── traceroute_flowmap.svg       # SVG visual of a traceroute path over governance levels
-├── scripts/
-│   ├── update_data_sources.sh    # Pull data from RIR/WHOIS APIs
-│   ├── build_ip_asn_db.py        # Compile raw IP/ASN data into local DB
-├── notebooks/
-│   ├── analysis.ipynb            # Jupyter notebook for exploring and analyzing mappings
-├── config/
-│   ├── traceroute_config.yaml    # Config file for traceroute parsing and thresholds
-│   ├── rirs.yaml                 # RIR metadata (region, URL, WHOIS formats)
-└── LICENSE                       # Optional open source license
-## 
+## 🛠️ Installation
 
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/internet-infrastructure-explorer.git
+   cd internet-infrastructure-explorer
+   ```
 
+2. Install dependencies:
+   ```bash
+   npm install
+   # or
+   yarn install
+   # or
+   pnpm install
+   ```
 
-> The IANA (Internet Assigned Numbers Authority) governance model is a system of multistakeholder cooperation and coordination. It involves various organizations like ICANN, IETF, and RIRs working together to manage and distribute internet resources. IANA's primary function is to allocate IP addresses and manage the DNS root, ensuring a stable and functional internet infrastructure. This model is characterized by open communication, public reporting, and independent reviews, fostering transparency and accountability. 
-Here's a more detailed breakdown:
-Key Players and Their Roles:
-ICANN:
-.
-Oversees the IANA and manages the DNS root and generic top-level domains (gTLDs).
-IANA:
-.
-Allocates IP addresses and manages the DNS root, working closely with ICANN and other organizations.
-IETF:
-.
-Sets policies and standards for internet protocols, coordinating with IANA to assign and maintain these parameters.
-Regional Internet Registries (RIRs):
-.
-Distribute IP addresses within specific regions, collaborating with IANA to ensure a global allocation system. 
-Governance Principles:
-Multistakeholder Governance:
-A system where various groups (government, industry, civil society, technical community) participate in decision-making. 
-Open Communication and Transparency:
-Regular consultations, public reporting, and independent performance reviews ensure transparency and accountability. 
-Coordination and Collaboration:
-IAna, ICANN, IETF, and RIRs work together to maintain a stable and functional internet. 
-Technical Expertise:
-The IETF, for example, provides the technical expertise for protocol development and management. 
-Key Areas of Management:
-IP Addresses:
-.
-IANA allocates IP addresses to RIRs, which then distribute them to local Internet registries. 
-DNS Root:
-.
-IANA manages the root zone of the DNS, which is the foundation of the internet's domain name system. 
-Protocol Parameters:
-.
-IANA coordinates with the IETF to manage and allocate protocol parameters used in internet communication. 
-In essence, the IANA governance map reflects a distributed and collaborative approach to managing the internet. This ensures a stable, functional, and open internet for everyone..
-> 
+3. Start the development server:
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   # or
+   pnpm dev
+   ```
+
+4. Open [http://localhost:3000](http://localhost:3000) to view the application.
+
+## 🧩 Project Structure
+
+```
+├── App.tsx                   # Main application component
+├── components/               # React components
+│   ├── AdvancedAnalysis.tsx  # Data analysis tools
+│   ├── FlowVisualization.tsx # Network flow visualization
+│   ├── GovernanceTabs.tsx    # IANA governance structure tabs
+│   ├── WebsiteTracer.tsx     # Website tracing functionality
+│   ├── ui/                   # UI components (ShadCN based)
+├── lib/                      # Utility functions and data
+├── styles/                   # Global styles
+```
+
+## 🎮 Usage
+
+### Website Tracing
+
+1. Enter a website URL in the main input field
+2. Click "Trace Website" to analyze the network path
+3. View the results in Visual Trace, Terminal View, or Performance Analysis tabs
+
+### Data Analysis
+
+1. Navigate to the "Data Analysis" tab
+2. Select from various analysis tools in the submenu:
+   - PCAP Analysis
+   - Hex Editor
+   - Cryptography
+   - SocialBlade
+   - Security Tools
+   - Bug Bounties
+   - API Inspector
+
+### Governance Structure
+
+1. Navigate to the "Governance Structure" tab
+2. Explore the IANA hierarchical tree visualization
+3. Click on entities to view detailed information
+
+## 🔧 Configuration
+
+Custom configuration can be set in the `.env` file:
+
+```
+# API Configuration (if integrating with backend services)
+API_URL=http://your-api-url
+```
+
+## 📦 Deployment
+
+The application can be built for production using:
+
+```bash
+npm run build
+# or
+yarn build
+# or
+pnpm build
+```
+
+The production-ready files will be in the `dist` directory.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🙏 Acknowledgments
+
+- Based on React and TailwindCSS v4
+- Uses ShadCN UI components
+- Icons from Lucide React
