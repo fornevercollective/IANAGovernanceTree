@@ -1,396 +1,478 @@
-import React, { useState } from "react";
-import { 
-  ChevronRight, 
-  ChevronDown,
-  Network, 
-  Globe, 
-  Server, 
-  Database, 
-  Shield, 
-  Brain, 
-  BarChart4, 
-  FileDigit, 
-  HexagonIcon, 
-  Key, 
-  ShieldAlert, 
-  Trophy, 
-  Brackets,
-  TrendingUp,
-  PieChart,
-  FileText,
-  Image,
-  Clock,
-  Zap,
-  Target,
-  GitBranch,
-  Copy,
-  Search,
-  Settings,
-  Folder,
-  FolderOpen,
-  Play,
-  Laptop
-} from "lucide-react";
+import React, { useState, useMemo } from "react";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
-import { Badge } from "./ui/badge";
+import { Input } from "./ui/input";
 
-interface TreeNode {
-  id: string;
-  label: string;
-  icon: React.ReactNode;
-  category?: string;
-  description?: string;
-  children?: TreeNode[];
-  action?: () => void;
-  badge?: string;
-  isExpanded?: boolean;
-}
-
-interface TreeMenuProps {
+export interface TreeMenuProps {
   onNodeSelect?: (nodeId: string, category?: string) => void;
   onToolExecute?: (toolId: string) => void;
   className?: string;
 }
 
-export function TreeMenu({ onNodeSelect, onToolExecute, className = "" }: TreeMenuProps) {
-  const [expandedNodes, setExpandedNodes] = useState<Set<string>>(
-    new Set(['network-analysis', 'data-processing', 'security-tools'])
-  );
+interface TreeNode {
+  id: string;
+  label: string;
+  abbr: string;
+  category?: string;
+  children?: TreeNode[];
+  isExecutable?: boolean;
+}
 
-  const treeData: TreeNode[] = [
-    {
-      id: 'network-analysis',
-      label: 'Network Analysis',
-      icon: <Network className="size-4" />,
-      description: 'Infrastructure and connectivity analysis',
-      children: [
-        {
-          id: 'website-tracer',
-          label: 'Website Tracer',
-          icon: <Laptop className="size-4" />,
-          category: 'network',
-          description: 'Trace website infrastructure',
-          action: () => onToolExecute?.('website-tracer')
-        },
-        {
-          id: 'dns-lookup',
-          label: 'DNS Lookup',
-          icon: <Globe className="size-4" />,
-          category: 'network',
-          description: 'DNS resolution analysis'
-        },
-        {
-          id: 'port-scanner',
-          label: 'Port Scanner',
-          icon: <Server className="size-4" />,
-          category: 'network',
-          description: 'Network port analysis'
-        },
-        {
-          id: 'network-topology',
-          label: 'Network Topology',
-          icon: <Target className="size-4" />,
-          category: 'network',
-          description: 'Network structure mapping'
-        }
-      ]
-    },
-    {
-      id: 'data-processing',
-      label: 'Data Processing',
-      icon: <Brain className="size-4" />,
-      description: 'AI and machine learning tools',
-      children: [
-        {
-          id: 'ml-analysis',
-          label: 'Machine Learning',
-          icon: <Brain className="size-4" />,
-          category: 'ai',
-          description: 'ML model training and analysis',
-          action: () => onToolExecute?.('ml-analysis')
-        },
-        {
-          id: 'statistical-analysis',
-          label: 'Statistical Analysis',
-          icon: <TrendingUp className="size-4" />,
-          category: 'ai',
-          description: 'Statistical data analysis'
-        },
-        {
-          id: 'data-visualization',
-          label: 'Data Visualization',
-          icon: <PieChart className="size-4" />,
-          category: 'ai',
-          description: 'Interactive charts and graphs'
-        },
-        {
-          id: 'text-processing',
-          label: 'Text Processing',
-          icon: <FileText className="size-4" />,
-          category: 'ai',
-          description: 'Natural language processing'
-        },
-        {
-          id: 'image-analysis',
-          label: 'Image Analysis',
-          icon: <Image className="size-4" />,
-          category: 'ai',
-          description: 'Computer vision and OCR'
-        },
-        {
-          id: 'time-series',
-          label: 'Time Series',
-          icon: <Clock className="size-4" />,
-          category: 'ai',
-          description: 'Temporal data analysis'
-        },
-        {
-          id: 'anomaly-detection',
-          label: 'Anomaly Detection',
-          icon: <Zap className="size-4" />,
-          category: 'ai',
-          description: 'Outlier and anomaly identification'
-        },
-        {
-          id: 'clustering',
-          label: 'Clustering',
-          icon: <GitBranch className="size-4" />,
-          category: 'ai',
-          description: 'Data clustering algorithms'
-        }
-      ]
-    },
-    {
-      id: 'security-tools',
-      label: 'Security Tools',
-      icon: <Shield className="size-4" />,
-      description: 'Cybersecurity and penetration testing',
-      children: [
-        {
-          id: 'pcap-analysis',
-          label: 'PCAP Analysis',
-          icon: <FileDigit className="size-4" />,
-          category: 'security',
-          description: 'Network packet analysis'
-        },
-        {
-          id: 'hex-editor',
-          label: 'Hex Editor',
-          icon: <HexagonIcon className="size-4" />,
-          category: 'security',
-          description: 'Binary file examination'
-        },
-        {
-          id: 'cryptography',
-          label: 'Cryptography',
-          icon: <Key className="size-4" />,
-          category: 'security',
-          description: 'Encryption and decryption tools'
-        },
-        {
-          id: 'vulnerability-scanner',
-          label: 'Vulnerability Scanner',
-          icon: <ShieldAlert className="size-4" />,
-          category: 'security',
-          description: 'Security vulnerability assessment'
-        },
-        {
-          id: 'bug-bounty-tracker',
-          label: 'Bug Bounty Tracker',
-          icon: <Trophy className="size-4" />,
-          category: 'security',
-          description: 'Bug bounty program management'
-        }
-      ]
-    },
-    {
-      id: 'web-tools',
-      label: 'Web Tools',
-      icon: <Globe className="size-4" />,
-      description: 'Web scraping and analysis',
-      children: [
-        {
-          id: 'api-scraper',
-          label: 'API Scraper',
-          icon: <Brackets className="size-4" />,
-          category: 'web',
-          description: 'API endpoint analysis'
-        },
-        {
-          id: 'site-cloner',
-          label: 'Site Cloner',
-          icon: <Copy className="size-4" />,
-          category: 'web',
-          description: 'Website cloning tool'
-        },
-        {
-          id: 'social-blade',
-          label: 'Social Metrics',
-          icon: <BarChart4 className="size-4" />,
-          category: 'web',
-          description: 'Social media analytics'
-        }
-      ]
-    },
-    {
-      id: 'governance',
-      label: 'Governance Structure',
-      icon: <Database className="size-4" />,
-      description: 'Internet governance and registry data',
-      children: [
-        {
-          id: 'iana-hierarchy',
-          label: 'IANA Hierarchy',
-          icon: <Network className="size-4" />,
-          category: 'governance',
-          description: 'Internet governance structure'
-        },
-        {
-          id: 'registry-data',
-          label: 'Registry Data',
-          icon: <Database className="size-4" />,
-          category: 'governance',
-          description: 'Domain and IP registries'
-        },
-        {
-          id: 'cdn-mapping',
-          label: 'CDN Mapping',
-          icon: <Server className="size-4" />,
-          category: 'governance',
-          description: 'Content delivery networks'
-        }
-      ]
-    },
-    {
-      id: 'automation',
-      label: 'Automation',
-      icon: <Settings className="size-4" />,
-      description: 'Workflow automation and scheduling',
-      badge: 'Pro',
-      children: [
-        {
-          id: 'workflow-builder',
-          label: 'Workflow Builder',
-          icon: <Play className="size-4" />,
-          category: 'automation',
-          description: 'Visual workflow creation'
-        },
-        {
-          id: 'scheduler',
-          label: 'Task Scheduler',
-          icon: <Clock className="size-4" />,
-          category: 'automation',
-          description: 'Automated task execution'
-        }
-      ]
-    }
-  ];
+export function TreeMenu({ onNodeSelect, onToolExecute, className = "" }: TreeMenuProps) {
+  const [expandedNodes, setExpandedNodes] = useState<Set<string>>(new Set(['network', 'security', 'ai', 'web', 'archives', 'governance']));
+  const [searchTerm, setSearchTerm] = useState("");
 
   const toggleNode = (nodeId: string) => {
-    setExpandedNodes(prev => {
-      const newSet = new Set(prev);
-      if (newSet.has(nodeId)) {
-        newSet.delete(nodeId);
-      } else {
-        newSet.add(nodeId);
-      }
-      return newSet;
-    });
+    const newExpanded = new Set(expandedNodes);
+    if (newExpanded.has(nodeId)) {
+      newExpanded.delete(nodeId);
+    } else {
+      newExpanded.add(nodeId);
+    }
+    setExpandedNodes(newExpanded);
   };
 
   const handleNodeClick = (node: TreeNode) => {
     if (node.children && node.children.length > 0) {
       toggleNode(node.id);
-    } else {
-      onNodeSelect?.(node.id, node.category);
-      if (node.action) {
-        node.action();
-      }
+    } else if (node.isExecutable && onToolExecute) {
+      onToolExecute(node.id);
+    } else if (onNodeSelect) {
+      onNodeSelect(node.id, node.category);
     }
   };
+
+  const clearSearch = () => {
+    setSearchTerm("");
+  };
+
+  const treeData: TreeNode[] = [
+    {
+      id: 'network',
+      label: 'network analysis',
+      abbr: 'net',
+      category: 'network',
+      children: [
+        { 
+          id: 'website-tracer', 
+          label: 'website tracer', 
+          abbr: 'tr',
+          category: 'network',
+          isExecutable: true 
+        },
+        { 
+          id: 'dns-lookup', 
+          label: 'dns lookup', 
+          abbr: 'dn',
+          category: 'network' 
+        },
+        { 
+          id: 'port-scanner', 
+          label: 'port scanner', 
+          abbr: 'ps',
+          category: 'network' 
+        },
+        { 
+          id: 'network-diagnostics', 
+          label: 'network diagnostics', 
+          abbr: 'nd',
+          category: 'network' 
+        }
+      ]
+    },
+    {
+      id: 'security',
+      label: 'security tools',
+      abbr: 'sec',
+      category: 'security',
+      children: [
+        { 
+          id: 'pcap-analysis', 
+          label: 'pcap analysis', 
+          abbr: 'pc',
+          category: 'security' 
+        },
+        { 
+          id: 'hex-editor', 
+          label: 'hex editor', 
+          abbr: 'hx',
+          category: 'security' 
+        },
+        { 
+          id: 'cryptography', 
+          label: 'cryptography', 
+          abbr: 'cr',
+          category: 'security' 
+        },
+        { 
+          id: 'vulnerability-scanner', 
+          label: 'vulnerability scanner', 
+          abbr: 'vs',
+          category: 'security' 
+        },
+        { 
+          id: 'bug-bounty-tracker', 
+          label: 'bug bounty tracker', 
+          abbr: 'bb',
+          category: 'security' 
+        }
+      ]
+    },
+    {
+      id: 'ai',
+      label: 'supadata ai tools',
+      abbr: 'ai',
+      category: 'ai',
+      children: [
+        { 
+          id: 'ml-analysis', 
+          label: 'ml analysis', 
+          abbr: 'ml',
+          category: 'ai' 
+        },
+        { 
+          id: 'statistical-analysis', 
+          label: 'statistical analysis', 
+          abbr: 'st',
+          category: 'ai' 
+        },
+        { 
+          id: 'data-visualization', 
+          label: 'data visualization', 
+          abbr: 'dv',
+          category: 'ai' 
+        },
+        { 
+          id: 'text-processing', 
+          label: 'text processing', 
+          abbr: 'tx',
+          category: 'ai' 
+        },
+        { 
+          id: 'image-analysis', 
+          label: 'image analysis', 
+          abbr: 'im',
+          category: 'ai' 
+        },
+        { 
+          id: 'time-series', 
+          label: 'time series analysis', 
+          abbr: 'ts',
+          category: 'ai' 
+        },
+        { 
+          id: 'anomaly-detection', 
+          label: 'anomaly detection', 
+          abbr: 'ad',
+          category: 'ai' 
+        },
+        { 
+          id: 'clustering', 
+          label: 'clustering', 
+          abbr: 'cl',
+          category: 'ai' 
+        }
+      ]
+    },
+    {
+      id: 'web',
+      label: 'web tools',
+      abbr: 'web',
+      category: 'web',
+      children: [
+        { 
+          id: 'api-scraper', 
+          label: 'api scraper', 
+          abbr: 'as',
+          category: 'web' 
+        },
+        { 
+          id: 'site-cloner', 
+          label: 'site cloner', 
+          abbr: 'sc',
+          category: 'web' 
+        },
+        { 
+          id: 'social-blade', 
+          label: 'socialblade metrics', 
+          abbr: 'sb',
+          category: 'web' 
+        }
+      ]
+    },
+    {
+      id: 'archives',
+      label: 'deep search & archives',
+      abbr: 'arc',
+      category: 'archives',
+      children: [
+        {
+          id: 'reference',
+          label: 'reference & dictionary',
+          abbr: 'ref',
+          category: 'archives',
+          children: [
+            { 
+              id: 'dictionaries', 
+              label: 'dictionaries', 
+              abbr: 'dc',
+              category: 'archives' 
+            },
+            { 
+              id: 'thesaurus', 
+              label: 'thesaurus', 
+              abbr: 'th',
+              category: 'archives' 
+            },
+            { 
+              id: 'encyclopedia', 
+              label: 'encyclopedia', 
+              abbr: 'en',
+              category: 'archives' 
+            }
+          ]
+        },
+        {
+          id: 'digital-archives',
+          label: 'digital archives',
+          abbr: 'dig',
+          category: 'archives',
+          children: [
+            { 
+              id: 'wikipedia', 
+              label: 'wikipedia', 
+              abbr: 'wp',
+              category: 'archives' 
+            },
+            { 
+              id: 'library-congress', 
+              label: 'library of congress', 
+              abbr: 'lc',
+              category: 'archives' 
+            },
+            { 
+              id: 'internet-archive', 
+              label: 'internet archive', 
+              abbr: 'ia',
+              category: 'archives' 
+            },
+            { 
+              id: 'national-archives', 
+              label: 'national archives', 
+              abbr: 'na',
+              category: 'archives' 
+            }
+          ]
+        },
+        {
+          id: 'academic-research',
+          label: 'academic & research',
+          abbr: 'aca',
+          category: 'archives',
+          children: [
+            { 
+              id: 'academic-papers', 
+              label: 'academic papers', 
+              abbr: 'ap',
+              category: 'archives' 
+            },
+            { 
+              id: 'patents', 
+              label: 'patent search', 
+              abbr: 'pt',
+              category: 'archives' 
+            },
+            { 
+              id: 'legal', 
+              label: 'legal database', 
+              abbr: 'lg',
+              category: 'archives' 
+            }
+          ]
+        },
+        {
+          id: 'news-media',
+          label: 'news & media',
+          abbr: 'nws',
+          category: 'archives',
+          children: [
+            { 
+              id: 'news-archives', 
+              label: 'news archives', 
+              abbr: 'na',
+              category: 'archives' 
+            },
+            { 
+              id: 'newspapers', 
+              label: 'historical newspapers', 
+              abbr: 'hn',
+              category: 'archives' 
+            },
+            { 
+              id: 'media', 
+              label: 'media collections', 
+              abbr: 'mc',
+              category: 'archives' 
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: 'governance',
+      label: 'internet governance',
+      abbr: 'gov',
+      category: 'governance',
+      children: [
+        { 
+          id: 'iana-hierarchy', 
+          label: 'iana hierarchy', 
+          abbr: 'ih',
+          category: 'governance' 
+        },
+        { 
+          id: 'regional-registries', 
+          label: 'regional registries', 
+          abbr: 'rr',
+          category: 'governance' 
+        },
+        { 
+          id: 'cdn-providers', 
+          label: 'cdn providers', 
+          abbr: 'cd',
+          category: 'governance' 
+        }
+      ]
+    }
+  ];
+
+  // Filter and search logic
+  const filteredTreeData = useMemo(() => {
+    if (!searchTerm.trim()) {
+      return treeData;
+    }
+
+    const searchLower = searchTerm.toLowerCase();
+    
+    const filterNode = (node: TreeNode): TreeNode | null => {
+      const nodeMatches = node.label.toLowerCase().includes(searchLower) || 
+                         node.abbr.toLowerCase().includes(searchLower) ||
+                         node.id.toLowerCase().includes(searchLower);
+      
+      const filteredChildren = node.children?.map(child => filterNode(child)).filter(Boolean) as TreeNode[] || [];
+      
+      // Include node if it matches or has matching children
+      if (nodeMatches || filteredChildren.length > 0) {
+        return {
+          ...node,
+          children: filteredChildren.length > 0 ? filteredChildren : node.children
+        };
+      }
+      
+      return null;
+    };
+
+    return treeData.map(node => filterNode(node)).filter(Boolean) as TreeNode[];
+  }, [searchTerm, treeData]);
+
+  // Auto-expand nodes that have matches when searching
+  React.useEffect(() => {
+    if (searchTerm.trim()) {
+      const expandedIds = new Set<string>();
+      
+      const collectExpandedIds = (nodes: TreeNode[]) => {
+        nodes.forEach(node => {
+          if (node.children && node.children.length > 0) {
+            expandedIds.add(node.id);
+            collectExpandedIds(node.children);
+          }
+        });
+      };
+      
+      collectExpandedIds(filteredTreeData);
+      setExpandedNodes(expandedIds);
+    }
+  }, [searchTerm, filteredTreeData]);
 
   const renderTreeNode = (node: TreeNode, level: number = 0) => {
     const isExpanded = expandedNodes.has(node.id);
     const hasChildren = node.children && node.children.length > 0;
-    const paddingLeft = level * 12 + 8;
+    const paddingLeft = level * 16 + 8;
+
+    // Highlight matching text
+    const highlightText = (text: string) => {
+      if (!searchTerm.trim()) return text;
+      
+      const searchLower = searchTerm.toLowerCase();
+      const textLower = text.toLowerCase();
+      const index = textLower.indexOf(searchLower);
+      
+      if (index === -1) return text;
+      
+      return (
+        <>
+          {text.substring(0, index)}
+          <span className="bg-terminal-cursor/20 text-terminal-cursor font-medium">
+            {text.substring(index, index + searchTerm.length)}
+          </span>
+          {text.substring(index + searchTerm.length)}
+        </>
+      );
+    };
 
     return (
-      <div key={node.id} className="select-none">
+      <div key={node.id}>
         <div
-          className={`
-            flex items-center gap-2 py-2 px-2 rounded-md cursor-pointer
-            hover:bg-muted/50 transition-colors group
-            ${!hasChildren ? 'hover:bg-primary/5' : ''}
-          `}
+          className="lark-card-interactive warp-section-highlight"
           style={{ paddingLeft: `${paddingLeft}px` }}
           onClick={() => handleNodeClick(node)}
         >
-          {hasChildren && (
-            <div className="flex items-center justify-center w-4 h-4">
-              {isExpanded ? (
-                <ChevronDown className="size-3 text-muted-foreground" />
-              ) : (
-                <ChevronRight className="size-3 text-muted-foreground" />
-              )}
-            </div>
-          )}
-          
-          {!hasChildren && (
-            <div className="w-4 h-4" />
-          )}
-          
-          <div className={`
-            flex items-center justify-center w-6 h-6 rounded
-            ${hasChildren ? 'text-muted-foreground' : 'text-primary bg-primary/10'}
-          `}>
-            {hasChildren ? (
-              isExpanded ? <FolderOpen className="size-4" /> : <Folder className="size-4" />
-            ) : (
-              node.icon
-            )}
-          </div>
-          
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2">
-              <span className={`
-                text-sm truncate
-                ${hasChildren ? 'font-medium text-foreground' : 'text-foreground'}
-              `}>
-                {node.label}
+          <div className="flex items-center gap-2 py-2">
+            {hasChildren && (
+              <span className="lark-icon text-muted-foreground">
+                {isExpanded ? 'v' : '&gt;'}
               </span>
-              {node.badge && (
-                <Badge variant="secondary" className="text-xs px-1.5 py-0">
-                  {node.badge}
-                </Badge>
+            )}
+            {!hasChildren && <div className="w-4 h-4" />}
+            
+            <div className="flex items-center justify-center">
+              {hasChildren ? (
+                <span className="lark-icon text-muted-foreground">
+                  {isExpanded ? '□' : '■'}
+                </span>
+              ) : (
+                <div className="lark-icon bg-primary/10 text-primary rounded px-1">
+                  {node.abbr}
+                </div>
               )}
             </div>
-            {node.description && (
-              <div className="text-xs text-muted-foreground truncate">
-                {node.description}
-              </div>
+            
+            <span className="font-mono text-sm font-medium text-foreground flex-grow">
+              {highlightText(node.label)}
+            </span>
+            
+            {!hasChildren && (
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="lark-button-abbreviation opacity-0 group-hover:opacity-100 transition-opacity"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (node.isExecutable && onToolExecute) {
+                    onToolExecute(node.id);
+                  } else if (onNodeSelect) {
+                    onNodeSelect(node.id, node.category);
+                  }
+                }}
+              >
+                <span className="lark-icon">&gt;</span>
+              </Button>
             )}
           </div>
-          
-          {!hasChildren && (
-            <Button
-              variant="ghost"
-              size="sm"
-              className="opacity-0 group-hover:opacity-100 transition-opacity h-6 w-6 p-0"
-              onClick={(e) => {
-                e.stopPropagation();
-                if (node.action) {
-                  node.action();
-                }
-              }}
-            >
-              <Play className="size-3" />
-            </Button>
-          )}
         </div>
         
         {hasChildren && isExpanded && (
-          <div className="space-y-1">
+          <div className="space-y-1 terminal-section-fade">
             {node.children!.map(child => renderTreeNode(child, level + 1))}
           </div>
         )}
@@ -399,33 +481,78 @@ export function TreeMenu({ onNodeSelect, onToolExecute, className = "" }: TreeMe
   };
 
   return (
-    <Card className={`${className} bg-card/50 backdrop-blur-sm`}>
-      <div className="p-4">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-              <Network className="size-4 text-primary" />
-            </div>
-            <div>
-              <h3 className="font-medium">Operations Tree</h3>
-              <p className="text-xs text-muted-foreground">Available tools and workflows</p>
-            </div>
+    <div className={`lark-card ${className}`}>
+      {/* Search Input Section */}
+      <div className="p-4 border-b border-border/40">
+        <div className="flex items-center gap-2 mb-2">
+          <span className="lark-icon text-primary">sr</span>
+          <h4 className="font-mono text-sm font-medium">tool search</h4>
+          <p className="font-mono text-xs text-muted-foreground ml-auto">find tools & workflows</p>
+        </div>
+        
+        <div className="relative">
+          <span className="lark-icon absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">?</span>
+          <Input
+            placeholder="search tools, categories, or abbreviations..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="lark-input-standard pl-10 pr-10 font-mono"
+          />
+          {searchTerm && (
+            <button
+              onClick={clearSearch}
+              className="lark-button-abbreviation absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 hover:bg-muted/50"
+              title="Clear search"
+            >
+              <span className="lark-icon text-muted-foreground">×</span>
+            </button>
+          )}
+        </div>
+        
+        {/* Search Results Summary */}
+        {searchTerm.trim() && (
+          <div className="mt-2 flex items-center gap-2">
+            <span className="lark-icon text-terminal-cursor">→</span>
+            <p className="font-mono text-xs text-muted-foreground">
+              {filteredTreeData.length === 0 
+                ? "no tools match your search"
+                : `${filteredTreeData.length} ${filteredTreeData.length === 1 ? 'category' : 'categories'} found`
+              }
+            </p>
+            {filteredTreeData.length > 0 && (
+              <span className="lark-badge ml-auto">
+                {filteredTreeData.reduce((count, node) => 
+                  count + (node.children?.length || 0), 0
+                )} tools
+              </span>
+            )}
           </div>
-          <Button variant="ghost" size="sm" className="text-muted-foreground">
-            <Search className="size-4" />
-          </Button>
-        </div>
-        
-        <div className="space-y-1 max-h-80 overflow-y-auto">
-          {treeData.map(node => renderTreeNode(node))}
-        </div>
-        
-        <div className="mt-4 pt-3 border-t text-center">
-          <p className="text-xs text-muted-foreground">
-            Select an operation to get started
-          </p>
-        </div>
+        )}
       </div>
-    </Card>
+      
+      {/* Tree List */}
+      <div className="space-y-1 max-h-96 overflow-y-auto p-4">
+        {filteredTreeData.length > 0 ? (
+          filteredTreeData.map(node => renderTreeNode(node))
+        ) : searchTerm.trim() ? (
+          <div className="text-center py-8">
+            <div className="lark-icon-sm bg-muted/50 rounded-full flex items-center justify-center w-12 h-12 mx-auto mb-3">
+              <span className="lark-icon text-muted-foreground">?</span>
+            </div>
+            <p className="font-mono text-sm text-muted-foreground">no tools match "{searchTerm}"</p>
+            <p className="font-mono text-xs text-muted-foreground mt-1">try different keywords or abbreviations</p>
+            <button
+              onClick={clearSearch}
+              className="lark-button-ghost mt-3 animate-accent-line"
+            >
+              <span className="lark-icon mr-1">cl</span>
+              <span className="font-mono text-xs">clear search</span>
+            </button>
+          </div>
+        ) : (
+          treeData.map(node => renderTreeNode(node))
+        )}
+      </div>
+    </div>
   );
 }

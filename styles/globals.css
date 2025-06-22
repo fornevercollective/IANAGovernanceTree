@@ -1,36 +1,66 @@
 @custom-variant dark (&:is(.dark *));
 
+/* Lark Design System - Terminal-First AI Development Environment */
+
 :root {
+  /* Base Font Configuration */
   --font-size: 14px;
+  --font-stack-mono: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+  
+  /* Lark Color System - Light Mode */
   --background: #ffffff;
   --foreground: oklch(0.145 0 0);
   --card: #ffffff;
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
+  
+  /* Primary Palette - Terminal Inspired */
   --primary: #030213;
   --primary-foreground: oklch(1 0 0);
   --secondary: oklch(0.95 0.0058 264.53);
   --secondary-foreground: #030213;
+  
+  /* Neutral Palette - Monochrome Focus */
   --muted: #ececf0;
   --muted-foreground: #717182;
   --accent: #e9ebef;
   --accent-foreground: #030213;
-  --destructive: #d4183d;
-  --destructive-foreground: #ffffff;
+  
+  /* Interactive Elements */
   --border: rgba(0, 0, 0, 0.1);
   --input: transparent;
   --input-background: #f3f3f5;
   --switch-background: #cbced4;
+  
+  /* Typography Weights */
   --font-weight-medium: 500;
   --font-weight-normal: 400;
+  
+  /* Focus & Selection */
   --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --radius: 0.625rem;
+  
+  /* Status Colors - Minimal */
+  --destructive: #d4183d;
+  --destructive-foreground: #ffffff;
+  --success: #22c55e;
+  --success-foreground: #ffffff;
+  --warning: #f59e0b;
+  --warning-foreground: #ffffff;
+  --info: #3b82f6;
+  --info-foreground: #ffffff;
+  
+  /* Layout Variables */
+  --radius: 0.375rem; /* Reduced for terminal aesthetic */
+  --sidebar-width-collapsed: 64px;
+  --sidebar-width-expanded: 256px;
+  --header-height: 56px;
+  --footer-height: 48px;
+  --content-height-base: 700px;
+  --panel-height-asset: 240px;
+  --panel-height-console: 192px;
+  
+  /* Sidebar Specific */
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: #030213;
@@ -39,9 +69,21 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  
+  /* Terminal Colors */
+  --terminal-bg: #1a1a1a;
+  --terminal-fg: #ffffff;
+  --terminal-cursor: #00ff41;
+  --terminal-prompt: #00ff41;
+  --terminal-selection: rgba(255, 255, 255, 0.2);
+  
+  /* Animation Timing */
+  --animation-speed: 0.15s;
+  --animation-easing: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .dark {
+  /* Dark Mode - Terminal Focus */
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.145 0 0);
@@ -58,16 +100,15 @@
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.396 0.141 25.723);
   --destructive-foreground: oklch(0.637 0.237 25.331);
+  --success: #10b981;
+  --success-foreground: #ffffff;
+  --warning: #f59e0b;
+  --warning-foreground: #000000;
+  --info: #3b82f6;
+  --info-foreground: #ffffff;
   --border: oklch(0.269 0 0);
   --input: oklch(0.269 0 0);
   --ring: oklch(0.439 0 0);
-  --font-weight-medium: 500;
-  --font-weight-normal: 400;
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
   --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: oklch(0.488 0.243 264.376);
@@ -76,6 +117,12 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(0.269 0 0);
   --sidebar-ring: oklch(0.439 0 0);
+  
+  /* Dark Terminal Colors */
+  --terminal-bg: #000000;
+  --terminal-fg: #00ff41;
+  --terminal-cursor: #00ff41;
+  --terminal-prompt: #00ff41;
 }
 
 @theme inline {
@@ -95,19 +142,20 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-input-background: var(--input-background);
   --color-switch-background: var(--switch-background);
   --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
   --radius-xl: calc(var(--radius) + 4px);
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
@@ -124,16 +172,410 @@
     @apply border-border outline-ring/50;
   }
 
-  body {
-    @apply bg-background text-foreground;
-    /* Prevent horizontal scrolling on mobile */
-    overflow-x: hidden;
+  html {
+    font-size: var(--font-size);
+    font-family: var(--font-stack-mono);
   }
+
+  body {
+    @apply bg-background text-foreground font-mono;
+    overflow-x: hidden;
+    line-height: 1.5;
+  }
+  
+  /* Lark Typography System - Monospace First */
+  h1 {
+    font-family: var(--font-stack-mono);
+    font-size: 1.5rem;
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+  }
+
+  h2 {
+    font-family: var(--font-stack-mono);
+    font-size: 1.25rem;
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+  }
+
+  h3 {
+    font-family: var(--font-stack-mono);
+    font-size: 1.125rem;
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  h4 {
+    font-family: var(--font-stack-mono);
+    font-size: 1rem;
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  p {
+    font-family: var(--font-stack-mono);
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-normal);
+    line-height: 1.5;
+  }
+
+  label {
+    font-family: var(--font-stack-mono);
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  button {
+    font-family: var(--font-stack-mono);
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  input, textarea, select {
+    font-family: var(--font-stack-mono);
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-normal);
+    line-height: 1.5;
+  }
+  
+  /* Code and Terminal Elements */
+  code, pre, .terminal {
+    font-family: var(--font-stack-mono);
+    font-size: 0.8125rem;
+    line-height: 1.4;
+  }
+  
+  /* Focus Styles - Terminal Inspired */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+}
+
+/* Lark Animation System - Warp-Style Terminal Interactions */
+@layer components {
+  
+  /* Core Animation Classes */
+  .animate-underline {
+    position: relative;
+    transition: color var(--animation-speed) var(--animation-easing);
+  }
+  
+  .animate-underline::before {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: currentColor;
+    transition: width var(--animation-speed) var(--animation-easing);
+  }
+  
+  .animate-underline:hover::before {
+    width: 100%;
+  }
+  
+  .animate-accent-line {
+    position: relative;
+    transition: transform var(--animation-speed) var(--animation-easing);
+  }
+  
+  .animate-accent-line::before {
+    content: '';
+    position: absolute;
+    left: -2px;
+    top: 0;
+    width: 1px;
+    height: 0;
+    background-color: var(--accent-foreground);
+    transition: height var(--animation-speed) var(--animation-easing);
+  }
+  
+  .animate-accent-line:hover::before {
+    height: 100%;
+  }
+  
+  .animate-border-grow {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .animate-border-grow::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 1px solid var(--border);
+    border-radius: inherit;
+    transform: scale(0.95);
+    opacity: 0;
+    transition: transform var(--animation-speed) var(--animation-easing),
+                opacity var(--animation-speed) var(--animation-easing);
+  }
+  
+  .animate-border-grow:hover::before {
+    transform: scale(1);
+    opacity: 1;
+  }
+  
+  .animate-terminal-line {
+    position: relative;
+  }
+  
+  .animate-terminal-line::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: var(--terminal-cursor);
+    animation: terminal-blink 1s infinite;
+  }
+  
+  @keyframes terminal-blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+  
+  .warp-section-highlight {
+    transition: transform var(--animation-speed) var(--animation-easing);
+  }
+  
+  .warp-section-highlight:hover {
+    transform: translateX(2px);
+  }
+  
+  .terminal-section-fade {
+    animation: terminal-fade-in 0.3s var(--animation-easing);
+  }
+  
+  @keyframes terminal-fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Button Patterns - Terminal Style */
+  .lark-button-primary {
+    @apply bg-primary text-primary-foreground font-mono text-sm px-4 py-2 rounded-md;
+    @apply hover:bg-primary/90 focus:ring-2 focus:ring-ring focus:outline-none;
+    @apply transition-colors duration-150;
+  }
+  
+  .lark-button-ghost {
+    @apply bg-transparent text-foreground font-mono text-xs px-2 py-1 rounded;
+    @apply hover:bg-muted/50 focus:ring-1 focus:ring-ring focus:outline-none;
+    @apply transition-colors duration-150;
+    height: 32px;
+  }
+  
+  .lark-button-abbreviation {
+    @apply bg-transparent font-mono text-xs px-2 py-1 rounded;
+    @apply hover:bg-accent text-accent-foreground;
+    @apply transition-all duration-150;
+    min-width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Input Patterns - Terminal Style */
+  .lark-input-standard {
+    @apply w-full px-3 py-2 bg-input-background border border-border rounded-md;
+    @apply text-sm font-mono placeholder:text-muted-foreground;
+    @apply focus:outline-none focus:ring-2 focus:ring-ring;
+    @apply transition-all duration-150;
+  }
+  
+  .lark-input-search {
+    @apply w-64 px-3 py-1 bg-input border border-border rounded-md;
+    @apply text-sm font-mono placeholder:text-muted-foreground;
+    @apply focus:outline-none focus:ring-2 focus:ring-ring;
+    @apply transition-all duration-150;
+  }
+  
+  /* Card Patterns - Minimal Terminal Style */
+  .lark-card {
+    @apply border border-border rounded-md p-4 bg-card;
+    @apply transition-colors duration-150;
+  }
+  
+  .lark-card-interactive {
+    @apply border border-border rounded-md p-3 bg-card;
+    @apply hover:bg-muted/50 transition-colors duration-150;
+    @apply cursor-pointer;
+  }
+  
+  /* Text Abbreviation Icons */
+  .lark-icon {
+    @apply font-mono text-xs inline-flex items-center justify-center;
+    @apply w-5 h-5 text-center;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.05em;
+  }
+  
+  .lark-icon-sm {
+    @apply font-mono text-xs inline-flex items-center justify-center;
+    @apply w-4 h-4 text-center;
+    font-size: 0.6875rem;
+  }
+  
+  /* Panel System */
+  .lark-panel {
+    @apply border-t border-border bg-card;
+    @apply transition-all duration-300 ease-in-out;
+  }
+  
+  .lark-panel-header {
+    @apply flex items-center justify-between p-4 border-b border-border;
+  }
+  
+  .lark-panel-content {
+    @apply p-4;
+  }
+  
+  /* Sidebar Patterns */
+  .lark-sidebar {
+    width: var(--sidebar-width-expanded);
+    @apply bg-sidebar border-r border-sidebar-border;
+    @apply transition-all duration-300 ease-in-out;
+  }
+  
+  .lark-sidebar-collapsed {
+    width: var(--sidebar-width-collapsed);
+  }
+  
+  .lark-sidebar-item {
+    @apply flex items-center gap-3 px-3 py-2 rounded-md;
+    @apply hover:bg-sidebar-accent text-sidebar-foreground;
+    @apply transition-colors duration-150 font-mono text-sm;
+  }
+  
+  /* Terminal Mode */
+  .lark-terminal {
+    @apply bg-black text-green-400 font-mono;
+    @apply min-h-screen p-4;
+    background-color: var(--terminal-bg);
+    color: var(--terminal-fg);
+  }
+  
+  .lark-terminal-prompt {
+    color: var(--terminal-prompt);
+  }
+  
+  .lark-terminal-cursor {
+    background-color: var(--terminal-cursor);
+    animation: terminal-blink 1s infinite;
+  }
+  
+  /* Layout Components */
+  .lark-layout-main {
+    max-width: 1536px;
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .lark-content-area {
+    height: var(--content-height-base);
+    @apply overflow-auto;
+  }
+  
+  /* Status and Badge Elements */
+  .lark-badge {
+    @apply inline-flex items-center px-2 py-1 rounded text-xs font-mono;
+    @apply bg-muted text-muted-foreground;
+  }
+  
+  .lark-badge-active {
+    @apply bg-primary text-primary-foreground;
+  }
+  
+  /* Navigation Elements */
+  .lark-nav-tab {
+    @apply pb-2 px-1 flex items-center font-mono text-sm;
+    @apply transition-colors duration-150;
+    border-bottom: 2px solid transparent;
+  }
+  
+  .lark-nav-tab-active {
+    @apply border-b-2 border-primary font-medium text-foreground;
+    position: relative;
+  }
+  
+  .lark-nav-tab-active::before {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: currentColor;
+  }
+  
+  .lark-nav-tab-inactive {
+    @apply text-muted-foreground hover:text-foreground;
+  }
+}
+
+/* Mobile Responsive Adjustments */
+@layer utilities {
   
   /* Mobile-specific improvements */
   @media (max-width: 640px) {
     html {
-      font-size: 14px;
+      font-size: 13px;
+    }
+    
+    .lark-button-ghost {
+      min-height: 44px;
+      padding: 0.75rem 1rem;
+    }
+    
+    .lark-input-standard,
+    .lark-input-search {
+      min-height: 44px;
+      font-size: 16px; /* Prevent iOS zoom */
+    }
+    
+    .lark-sidebar {
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 50;
+      transform: translateX(-100%);
+    }
+    
+    .lark-sidebar.open {
+      transform: translateX(0);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .lark-nav-tab {
+      font-size: 0.8125rem;
+      padding: 0.5rem 0.25rem;
+    }
+    
+    .lark-card {
+      padding: 0.75rem;
+      margin: 0 -0.5rem;
+      border-radius: 0;
+      border-left: none;
+      border-right: none;
     }
   }
   
@@ -147,114 +589,15 @@
     display: none;
   }
   
-  /* Improved touch targets for mobile */
-  @media (max-width: 768px) {
-    button, 
-    [role="button"], 
-    input, 
-    select, 
-    textarea {
-      min-height: 44px;
-    }
-    
-    /* Ensure clickable elements have proper spacing */
-    button {
-      padding: 0.5rem 1rem;
-    }
-    
-    /* Better input handling on mobile */
-    input, textarea {
-      font-size: 16px; /* Prevents zoom on iOS */
-    }
-  }
-}
-
-@layer base {
-  h1 {
-    font-size: var(--text-2xl);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
-
-  h2 {
-    font-size: var(--text-xl);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
-
-  h3 {
-    font-size: var(--text-lg);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
-
-  h4 {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
-
-  p {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-normal);
-    line-height: 1.5;
-  }
-
-  label {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
-
-  button {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
-
-  input {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-normal);
-    line-height: 1.5;
-  }
-}
-
-html {
-  font-size: var(--font-size);
-}
-
-/* Mobile-specific utility classes */
-@layer utilities {
-  .touch-manipulation {
-    touch-action: manipulation;
-  }
-  
-  .select-none-touch {
-    -webkit-user-select: none;
-    -webkit-touch-callout: none;
-    user-select: none;
-  }
-  
-  /* Custom breakpoint for extra small screens */
+  /* Custom breakpoint utilities */
   @media (min-width: 475px) {
-    .xs\:inline {
-      display: inline;
-    }
-    
-    .xs\:block {
-      display: block;
-    }
-    
-    .xs\:flex {
-      display: flex;
-    }
-    
-    .xs\:hidden {
-      display: none;
-    }
+    .xs\:inline { display: inline; }
+    .xs\:block { display: block; }
+    .xs\:flex { display: flex; }
+    .xs\:hidden { display: none; }
   }
   
-  /* Safe area padding for mobile devices with notches */
+  /* Safe area support */
   .safe-area-inset {
     padding-left: env(safe-area-inset-left);
     padding-right: env(safe-area-inset-right);
@@ -269,44 +612,121 @@ html {
   }
 }
 
-/* Improved mobile viewport handling */
-@media screen and (max-width: 768px) {
-  .container {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+/* Accessibility & Performance */
+@layer utilities {
+  
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-underline,
+    .animate-accent-line,
+    .animate-border-grow,
+    .warp-section-highlight,
+    .terminal-section-fade,
+    .lark-button-primary,
+    .lark-button-ghost,
+    .lark-input-standard,
+    .lark-card-interactive,
+    .lark-sidebar,
+    .lark-nav-tab {
+      transition: none;
+    }
+    
+    .animate-terminal-line::after {
+      animation: none;
+      opacity: 1;
+    }
   }
   
-  /* Better card spacing on mobile */
-  .card-mobile {
-    margin-left: -0.5rem;
-    margin-right: -0.5rem;
-    border-radius: 0;
-    border-left: none;
-    border-right: none;
+  /* High contrast support */
+  @media (prefers-contrast: high) {
+    :root {
+      --border: rgba(0, 0, 0, 0.4);
+      --ring: #000000;
+    }
+    
+    .dark {
+      --border: rgba(255, 255, 255, 0.4);
+      --ring: #ffffff;
+    }
   }
   
-  /* Improve button spacing on mobile */
-  .btn-group-mobile > * + * {
-    margin-left: 0.25rem;
+  /* Focus management */
+  .focus-visible\:ring-2:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+  
+  /* Print styles */
+  @media print {
+    .lark-sidebar,
+    .lark-panel,
+    .animate-underline::before,
+    .animate-accent-line::before,
+    .animate-border-grow::before {
+      display: none;
+    }
+    
+    .lark-card {
+      border: 1px solid #000;
+      box-shadow: none;
+    }
   }
 }
 
-/* Accessibility improvements for mobile */
-@media (prefers-reduced-motion: reduce) {
-  .transition-all,
-  .transition-transform,
-  .transition-colors {
-    transition: none;
+/* Performance Optimizations */
+@layer base {
+  
+  /* GPU acceleration for animations */
+  .animate-underline,
+  .animate-accent-line,
+  .animate-border-grow,
+  .warp-section-highlight {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+  
+  /* Optimized scrolling */
+  .lark-content-area {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+  
+  /* Text rendering optimization */
+  body {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-  :root {
-    --border: rgba(0, 0, 0, 0.3);
+/* Lark Brand Elements */
+@layer components {
+  
+  .lark-brand {
+    @apply font-mono text-sm font-medium;
   }
   
-  .dark {
-    --border: rgba(255, 255, 255, 0.3);
+  .lark-brand::before {
+    content: '.\\';
+    @apply text-primary mr-1;
+    font-weight: bold;
+  }
+  
+  .lark-tagline {
+    @apply font-mono text-xs text-muted-foreground;
+  }
+  
+  /* Status indicators */
+  .lark-status-dot {
+    @apply w-2 h-2 rounded-full bg-success;
+    animation: pulse 2s infinite;
+  }
+  
+  .lark-status-dot.warning {
+    @apply bg-warning;
+  }
+  
+  .lark-status-dot.error {
+    @apply bg-destructive;
   }
 }

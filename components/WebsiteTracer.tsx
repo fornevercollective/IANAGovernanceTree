@@ -167,7 +167,7 @@ export function WebsiteTracer({
       });
       
       // Auto expand the first level
-      const firstLevelNodeIds = mockTraceNodes[0].children?.map(child => child.id) || [];
+      const firstLevelNodeIds = mockTraceNodes[0]?.children?.map(child => child.id) || [];
       setExpandedNodes(new Set(firstLevelNodeIds));
     } catch (err) {
       setError("Failed to trace website. Please check the URL and try again.");
@@ -201,6 +201,21 @@ export function WebsiteTracer({
       expanded: expandedNodes.has(node.id),
       children: node.children ? getNodesWithExpandedState(node.children) : undefined
     }));
+  };
+
+  // Get visualization nodes safely
+  const getVisualizationNodes = (): FlowNode[] => {
+    if (!traceResult || !traceResult.nodes || traceResult.nodes.length === 0) {
+      return [];
+    }
+
+    const rootNode = traceResult.nodes[0];
+    if (!rootNode || !rootNode.children) {
+      return [];
+    }
+
+    // Process the children nodes with expanded state
+    return getNodesWithExpandedState(rootNode.children);
   };
 
   const toggleHeroSection = () => {
@@ -380,12 +395,7 @@ export function WebsiteTracer({
                   </div>
                   
                   <FlowVisualization 
-                    nodes={traceResult.nodes[0].children ? getNodesWithExpandedState([
-                      {
-                        ...traceResult.nodes[0],
-                        expanded: true
-                      }
-                    ])[0].children! : []}
+                    nodes={getVisualizationNodes()}
                     onNodeSelect={handleSelectNode}
                     onNodeExpand={handleExpandNode}
                     showMetrics={true}
@@ -411,7 +421,7 @@ export function WebsiteTracer({
                   </div>
                   
                   <TerminalOutput 
-                    nodes={traceResult.nodes[0].children || []} 
+                    nodes={traceResult.nodes[0]?.children || []} 
                     totalTime={traceResult.totalTime}
                   />
                 </CardContent>
@@ -430,15 +440,15 @@ export function WebsiteTracer({
                     <div className="p-4 border rounded-lg">
                       <div className="text-sm text-muted-foreground mb-1">DNS Resolution Time</div>
                       <div className="text-2xl font-medium">
-                        {traceResult.nodes[0].children
+                        {traceResult.nodes[0]?.children
                           ?.filter(s => s.type === 'dns')
-                          .reduce((sum, s) => sum + (s.latency || 0), 0)}ms
+                          .reduce((sum, s) => sum + (s.latency || 0), 0) || 0}ms
                       </div>
                     </div>
                     <div className="p-4 border rounded-lg">
                       <div className="text-sm text-muted-foreground mb-1">Server Response</div>
                       <div className="text-2xl font-medium">
-                        {traceResult.nodes[0].children
+                        {traceResult.nodes[0]?.children
                           ?.find(s => s.type === 'server')?.latency || 0}ms
                       </div>
                     </div>
@@ -447,7 +457,7 @@ export function WebsiteTracer({
                   <div className="mt-6">
                     <h5 className="mb-2">Step Latency Distribution</h5>
                     <div className="space-y-4">
-                      {traceResult.nodes[0].children?.map(step => step.latency !== undefined && (
+                      {traceResult.nodes[0]?.children?.map(step => step.latency !== undefined && (
                         <div key={step.id} className="space-y-1">
                           <div className="flex justify-between text-sm">
                             <span>{step.name}</span>
@@ -457,7 +467,7 @@ export function WebsiteTracer({
                             value={(step.latency / traceResult.totalTime) * 100}
                           />
                         </div>
-                      ))}
+                      )) || []}
                     </div>
                   </div>
                 </CardContent>

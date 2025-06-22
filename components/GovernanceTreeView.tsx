@@ -1,6 +1,4 @@
-
 import React, { useState, useEffect } from "react";
-import { Search } from "lucide-react";
 import { Input } from "./ui/input";
 import { FlowNode, FlowVisualization } from "./FlowVisualization";
 import { TreeNodeProps } from "./VerticalTreeNode";
@@ -9,9 +7,10 @@ import { Badge } from "./ui/badge";
 interface GovernanceTreeViewProps {
   data: Omit<TreeNodeProps, 'level' | 'onNodeSelect'>[];
   onNodeSelect: (node: TreeNodeProps) => void;
+  selectedNode?: TreeNodeProps | null;
 }
 
-export function GovernanceTreeView({ data, onNodeSelect }: GovernanceTreeViewProps) {
+export function GovernanceTreeView({ data, onNodeSelect, selectedNode }: GovernanceTreeViewProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [expandedNodes, setExpandedNodes] = useState<Set<string>>(new Set());
   const [flowNodes, setFlowNodes] = useState<FlowNode[]>([]);
@@ -20,10 +19,22 @@ export function GovernanceTreeView({ data, onNodeSelect }: GovernanceTreeViewPro
   
   // Convert tree data to flow nodes format
   useEffect(() => {
+    // Add null check for data
+    if (!data || !Array.isArray(data)) {
+      setFlowNodes([]);
+      setEntityCounts({});
+      return;
+    }
+
     const convertToFlowNodes = (
       nodes: Omit<TreeNodeProps, 'level' | 'onNodeSelect'>[], 
       parentType: FlowNode['type'] = 'governance'
     ): FlowNode[] => {
+      // Add null check here as well
+      if (!nodes || !Array.isArray(nodes)) {
+        return [];
+      }
+
       return nodes.map(node => {
         // Determine the most appropriate type based on node content or name
         let nodeType: FlowNode['type'] = parentType;
@@ -73,6 +84,8 @@ export function GovernanceTreeView({ data, onNodeSelect }: GovernanceTreeViewPro
       };
       
       const traverse = (nodes: Omit<TreeNodeProps, 'level' | 'onNodeSelect'>[]) => {
+        if (!nodes || !Array.isArray(nodes)) return;
+        
         for (const node of nodes) {
           // Check if it's a CDN
           if ('type' in node && node.type === 'cdn') {
@@ -179,60 +192,84 @@ export function GovernanceTreeView({ data, onNodeSelect }: GovernanceTreeViewPro
   
   return (
     <div className="w-full">
+      {/* Lark-styled Search */}
       <div className="relative mb-4">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground size-4" />
+        <span className="lark-icon absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">sr</span>
         <Input
-          placeholder="Search governance entities..."
+          placeholder="search governance entities..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="pl-10"
+          className="lark-input-standard pl-10 font-mono"
         />
       </div>
       
+      {/* Lark-styled Filter Badges */}
       <div className="mb-4 flex flex-wrap gap-2">
         <Badge 
           onClick={() => handleFilterClick('cdn')}
           variant={filterBy === 'cdn' ? "default" : "outline"} 
-          className="cursor-pointer"
+          className="lark-badge cursor-pointer hover:bg-accent transition-colors font-mono"
         >
-          CDNs ({entityCounts.cdn || 0})
+          <span className="lark-icon mr-1">cd</span>
+          cdns ({entityCounts.cdn || 0})
         </Badge>
         <Badge 
           onClick={() => handleFilterClick('registry')}
           variant={filterBy === 'registry' ? "default" : "outline"} 
-          className="cursor-pointer"
+          className="lark-badge cursor-pointer hover:bg-accent transition-colors font-mono"
         >
-          Registries ({entityCounts.registry || 0})
+          <span className="lark-icon mr-1">rg</span>
+          registries ({entityCounts.registry || 0})
         </Badge>
         <Badge 
           onClick={() => handleFilterClick('technical')}
           variant={filterBy === 'technical' ? "default" : "outline"} 
-          className="cursor-pointer"
+          className="lark-badge cursor-pointer hover:bg-accent transition-colors font-mono"
         >
-          Technical ({entityCounts.technical || 0})
+          <span className="lark-icon mr-1">tc</span>
+          technical ({entityCounts.technical || 0})
         </Badge>
         <Badge 
           onClick={() => handleFilterClick('regulatory')}
           variant={filterBy === 'regulatory' ? "default" : "outline"} 
-          className="cursor-pointer"
+          className="lark-badge cursor-pointer hover:bg-accent transition-colors font-mono"
         >
-          Regulatory ({entityCounts.regulatory || 0})
+          <span className="lark-icon mr-1">ry</span>
+          regulatory ({entityCounts.regulatory || 0})
         </Badge>
         <Badge 
           onClick={expandAllCDNs}
           variant="secondary" 
-          className="cursor-pointer ml-auto"
+          className="lark-badge cursor-pointer ml-auto hover:bg-muted transition-colors font-mono animate-accent-line"
         >
-          Expand all CDN paths
+          <span className="lark-icon mr-1">ex</span>
+          expand all cdn paths
         </Badge>
       </div>
       
-      <div className="governance-tree-container pb-6">
-        <FlowVisualization
-          nodes={filteredNodes}
-          onNodeSelect={handleNodeSelect}
-          onNodeExpand={handleNodeExpand}
-        />
+      {/* Flow Visualization Container */}
+      <div className="governance-tree-container pb-6 lark-card bg-muted/20 border-dashed">
+        <div className="flex items-center gap-2 mb-4 p-4 pb-0">
+          <span className="lark-icon text-primary">fl</span>
+          <h5 className="font-mono text-sm font-medium">governance flow diagram</h5>
+          <p className="font-mono text-xs text-muted-foreground ml-auto">interactive hierarchy</p>
+        </div>
+        
+        {filteredNodes.length > 0 ? (
+          <FlowVisualization
+            nodes={filteredNodes}
+            onNodeSelect={handleNodeSelect}
+            onNodeExpand={handleNodeExpand}
+          />
+        ) : (
+          <div className="text-center py-8">
+            <div className="lark-icon-sm bg-muted/50 rounded-full flex items-center justify-center w-12 h-12 mx-auto mb-3">
+              <span className="lark-icon text-muted-foreground">?</span>
+            </div>
+            <p className="font-mono text-sm text-muted-foreground">no entities match your search criteria</p>
+            <p className="font-mono text-xs text-muted-foreground mt-1">try adjusting your filters or search terms</p>
+          </div>
+        )}
       </div>
     </div>
   );
