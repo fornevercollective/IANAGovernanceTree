@@ -3,131 +3,924 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Internet Infrastructure Explorer</title>
+    <title>Lark Design System - Internet Infrastructure Explorer</title>
+    <meta name="description" content="Terminal-first design system for AI development environments. Explore internet governance, trace website infrastructure, and discover the Lark Design System.">
+    <meta name="keywords" content="design system, terminal, AI, development, lark, infrastructure, governance, DNS, IANA">
+    <meta name="author" content="Lark Design System">
     
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><rect x='3' y='3' width='18' height='18' rx='2'/><path d='M9 9h6v6H9z'/></svg>">
     
-    <!-- React and ReactDOM -->
+    <!-- React & ReactDOM -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     
     <!-- Babel for JSX transformation -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     
-    <!-- Lucide React Icons -->
-    <script src="https://unpkg.com/lucide-react@latest/dist/umd/lucide-react.js"></script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Custom Tailwind Configuration -->
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        background: 'var(--background)',
-                        foreground: 'var(--foreground)',
-                        card: 'var(--card)',
-                        'card-foreground': 'var(--card-foreground)',
-                        primary: 'var(--primary)',
-                        'primary-foreground': 'var(--primary-foreground)',
-                        secondary: 'var(--secondary)',
-                        'secondary-foreground': 'var(--secondary-foreground)',
-                        muted: 'var(--muted)',
-                        'muted-foreground': 'var(--muted-foreground)',
-                        accent: 'var(--accent)',
-                        'accent-foreground': 'var(--accent-foreground)',
-                        destructive: 'var(--destructive)',
-                        'destructive-foreground': 'var(--destructive-foreground)',
-                        border: 'var(--border)',
-                        input: 'var(--input)',
-                        ring: 'var(--ring)',
-                    },
-                    borderRadius: {
-                        lg: 'var(--radius)',
-                        md: 'calc(var(--radius) - 2px)',
-                        sm: 'calc(var(--radius) - 4px)',
-                    },
-                }
-            }
-        }
-    </script>
-    
-    <!-- Custom CSS Variables -->
     <style>
+        /* Lark Design System - Terminal-First AI Development Environment */
         :root {
+            /* Base Font Configuration */
+            --font-size: 14px;
+            --font-stack-mono: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+            
+            /* Lark Color System - Light Mode */
             --background: #ffffff;
-            --foreground: #0a0a0a;
+            --foreground: #1a1a1a;
             --card: #ffffff;
-            --card-foreground: #0a0a0a;
-            --primary: #171717;
-            --primary-foreground: #fafafa;
-            --secondary: #f5f5f5;
-            --secondary-foreground: #171717;
-            --muted: #f5f5f5;
-            --muted-foreground: #737373;
-            --accent: #f5f5f5;
-            --accent-foreground: #171717;
-            --destructive: #ef4444;
-            --destructive-foreground: #fafafa;
-            --border: #e5e5e5;
-            --input: #e5e5e5;
-            --ring: #171717;
-            --radius: 0.5rem;
+            --card-foreground: #1a1a1a;
+            --popover: #ffffff;
+            --popover-foreground: #1a1a1a;
+            
+            /* Primary Palette - Terminal Inspired */
+            --primary: #030213;
+            --primary-foreground: #ffffff;
+            --secondary: #f1f5f9;
+            --secondary-foreground: #030213;
+            
+            /* Neutral Palette - Monochrome Focus */
+            --muted: #ececf0;
+            --muted-foreground: #717182;
+            --accent: #e9ebef;
+            --accent-foreground: #030213;
+            
+            /* Interactive Elements */
+            --border: rgba(0, 0, 0, 0.1);
+            --input: transparent;
+            --input-background: #f3f3f5;
+            --switch-background: #cbced4;
+            
+            /* Typography Weights */
+            --font-weight-medium: 500;
+            --font-weight-normal: 400;
+            
+            /* Focus & Selection */
+            --ring: #717182;
+            
+            /* Status Colors - Minimal */
+            --destructive: #d4183d;
+            --destructive-foreground: #ffffff;
+            --success: #22c55e;
+            --success-foreground: #ffffff;
+            --warning: #f59e0b;
+            --warning-foreground: #ffffff;
+            --info: #3b82f6;
+            --info-foreground: #ffffff;
+            
+            /* Layout Variables */
+            --radius: 0.375rem;
+            --animation-speed: 0.15s;
+            --animation-easing: cubic-bezier(0.4, 0, 0.2, 1);
+            
+            /* Terminal Colors */
+            --terminal-bg: #1a1a1a;
+            --terminal-fg: #ffffff;
+            --terminal-cursor: #00ff41;
+            --terminal-prompt: #00ff41;
         }
-        
+
         .dark {
-            --background: #0a0a0a;
-            --foreground: #fafafa;
-            --card: #0a0a0a;
-            --card-foreground: #fafafa;
-            --primary: #fafafa;
-            --primary-foreground: #171717;
-            --secondary: #262626;
-            --secondary-foreground: #fafafa;
-            --muted: #262626;
-            --muted-foreground: #a3a3a3;
-            --accent: #262626;
-            --accent-foreground: #fafafa;
-            --destructive: #7f1d1d;
-            --destructive-foreground: #fafafa;
-            --border: #262626;
-            --input: #262626;
-            --ring: #d4d4d8;
+            /* Dark Mode - Terminal Focus */
+            --background: #1a1a1a;
+            --foreground: #ffffff;
+            --card: #1a1a1a;
+            --card-foreground: #ffffff;
+            --popover: #1a1a1a;
+            --popover-foreground: #ffffff;
+            --primary: #ffffff;
+            --primary-foreground: #1a1a1a;
+            --secondary: #333333;
+            --secondary-foreground: #ffffff;
+            --muted: #333333;
+            --muted-foreground: #a0a0a0;
+            --accent: #333333;
+            --accent-foreground: #ffffff;
+            --destructive: #ef4444;
+            --destructive-foreground: #ffffff;
+            --success: #10b981;
+            --success-foreground: #ffffff;
+            --warning: #f59e0b;
+            --warning-foreground: #000000;
+            --info: #3b82f6;
+            --info-foreground: #ffffff;
+            --border: #333333;
+            --input: #333333;
+            --ring: #666666;
+            --input-background: #2a2a2a;
+            
+            /* Dark Terminal Colors */
+            --terminal-bg: #000000;
+            --terminal-fg: #00ff41;
+            --terminal-cursor: #00ff41;
+            --terminal-prompt: #00ff41;
         }
-        
+
+        * {
+            border-color: var(--border);
+        }
+
+        html {
+            font-size: var(--font-size);
+            font-family: var(--font-stack-mono);
+        }
+
         body {
             background-color: var(--background);
             color: var(--foreground);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: var(--font-stack-mono);
+            overflow-x: hidden;
+            line-height: 1.5;
+            margin: 0;
+            padding: 0;
         }
         
-        .size-4 { width: 1rem; height: 1rem; }
-        .size-5 { width: 1.25rem; height: 1.25rem; }
-        .size-6 { width: 1.5rem; height: 1.5rem; }
-        .size-8 { width: 2rem; height: 2rem; }
-        .size-10 { width: 2.5rem; height: 2.5rem; }
-        .size-12 { width: 3rem; height: 3rem; }
+        /* Lark Typography System - Monospace First */
+        h1 {
+            font-family: var(--font-stack-mono);
+            font-size: 1.5rem;
+            font-weight: var(--font-weight-medium);
+            line-height: 1.5;
+            letter-spacing: -0.01em;
+            margin: 0;
+        }
+
+        h2 {
+            font-family: var(--font-stack-mono);
+            font-size: 1.25rem;
+            font-weight: var(--font-weight-medium);
+            line-height: 1.5;
+            letter-spacing: -0.01em;
+            margin: 0;
+        }
+
+        h3 {
+            font-family: var(--font-stack-mono);
+            font-size: 1.125rem;
+            font-weight: var(--font-weight-medium);
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        h4 {
+            font-family: var(--font-stack-mono);
+            font-size: 1rem;
+            font-weight: var(--font-weight-medium);
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        p {
+            font-family: var(--font-stack-mono);
+            font-size: 0.875rem;
+            font-weight: var(--font-weight-normal);
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        label {
+            font-family: var(--font-stack-mono);
+            font-size: 0.875rem;
+            font-weight: var(--font-weight-medium);
+            line-height: 1.5;
+        }
+
+        button {
+            font-family: var(--font-stack-mono);
+            font-size: 0.875rem;
+            font-weight: var(--font-weight-medium);
+            line-height: 1.5;
+            border: none;
+            background: none;
+            cursor: pointer;
+        }
+
+        input, textarea, select {
+            font-family: var(--font-stack-mono);
+            font-size: 0.875rem;
+            font-weight: var(--font-weight-normal);
+            line-height: 1.5;
+        }
         
+        /* Code and Terminal Elements */
+        code, pre, .terminal {
+            font-family: var(--font-stack-mono);
+            font-size: 0.8125rem;
+            line-height: 1.4;
+        }
+        
+        /* Focus Styles - Terminal Inspired */
+        :focus-visible {
+            outline: 2px solid var(--ring);
+            outline-offset: 2px;
+        }
+
+        /* Lark Animation System - Warp-Style Terminal Interactions */
+        .animate-underline {
+            position: relative;
+            transition: color var(--animation-speed) var(--animation-easing);
+        }
+        
+        .animate-underline::before {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: currentColor;
+            transition: width var(--animation-speed) var(--animation-easing);
+        }
+        
+        .animate-underline:hover::before {
+            width: 100%;
+        }
+        
+        .animate-accent-line {
+            position: relative;
+            transition: transform var(--animation-speed) var(--animation-easing);
+        }
+        
+        .animate-accent-line::before {
+            content: '';
+            position: absolute;
+            left: -2px;
+            top: 0;
+            width: 1px;
+            height: 0;
+            background-color: var(--accent-foreground);
+            transition: height var(--animation-speed) var(--animation-easing);
+        }
+        
+        .animate-accent-line:hover::before {
+            height: 100%;
+        }
+        
+        .animate-terminal-line {
+            position: relative;
+        }
+        
+        .animate-terminal-line::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--terminal-cursor);
+            animation: terminal-blink 1s infinite;
+        }
+        
+        @keyframes terminal-blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        
+        .warp-section-highlight {
+            transition: transform var(--animation-speed) var(--animation-easing);
+        }
+        
+        .warp-section-highlight:hover {
+            transform: translateX(2px);
+        }
+        
+        .terminal-section-fade {
+            animation: terminal-fade-in 0.3s var(--animation-easing);
+        }
+        
+        @keyframes terminal-fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(4px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Button Patterns - Terminal Style */
+        .lark-button-primary {
+            background-color: var(--primary);
+            color: var(--primary-foreground);
+            font-family: var(--font-stack-mono);
+            font-size: 0.875rem;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            transition: all var(--animation-speed);
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .lark-button-primary:hover {
+            opacity: 0.9;
+        }
+        
+        .lark-button-primary:focus {
+            outline: 2px solid var(--ring);
+            outline-offset: 2px;
+        }
+        
+        .lark-button-ghost {
+            background-color: transparent;
+            color: var(--foreground);
+            font-family: var(--font-stack-mono);
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--radius);
+            transition: all var(--animation-speed);
+            border: none;
+            cursor: pointer;
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .lark-button-ghost:hover {
+            background-color: var(--muted);
+        }
+        
+        .lark-button-abbreviation {
+            background-color: transparent;
+            font-family: var(--font-stack-mono);
+            font-size: 0.75rem;
+            padding: 0.25rem;
+            border-radius: var(--radius);
+            transition: all var(--animation-speed);
+            border: none;
+            cursor: pointer;
+            min-width: 28px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .lark-button-abbreviation:hover {
+            background-color: var(--accent);
+            color: var(--accent-foreground);
+        }
+        
+        /* Input Patterns - Terminal Style */
+        .lark-input-standard {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            background-color: var(--input-background);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            font-family: var(--font-stack-mono);
+            color: var(--foreground);
+            transition: all var(--animation-speed);
+        }
+        
+        .lark-input-standard::placeholder {
+            color: var(--muted-foreground);
+        }
+        
+        .lark-input-standard:focus {
+            outline: none;
+            border-color: var(--ring);
+            box-shadow: 0 0 0 2px var(--ring);
+        }
+        
+        /* Card Patterns - Minimal Terminal Style */
+        .lark-card {
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1rem;
+            background-color: var(--card);
+            transition: all var(--animation-speed);
+        }
+        
+        .lark-card-interactive {
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 0.75rem;
+            background-color: var(--card);
+            transition: all var(--animation-speed);
+            cursor: pointer;
+        }
+        
+        .lark-card-interactive:hover {
+            background-color: var(--muted);
+        }
+        
+        /* Text Abbreviation Icons */
+        .lark-icon {
+            font-family: var(--font-stack-mono);
+            font-size: 0.75rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1.25rem;
+            height: 1.25rem;
+            text-align: center;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: -0.05em;
+        }
+        
+        .lark-icon-sm {
+            font-family: var(--font-stack-mono);
+            font-size: 0.6875rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1rem;
+            height: 1rem;
+            text-align: center;
+        }
+        
+        /* Layout Components */
+        .lark-layout-main {
+            max-width: 1536px;
+            margin: 0 auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Status and Badge Elements */
+        .lark-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--radius);
+            font-size: 0.75rem;
+            font-family: var(--font-stack-mono);
+            background-color: var(--muted);
+            color: var(--muted-foreground);
+        }
+        
+        .lark-badge-active {
+            background-color: var(--primary);
+            color: var(--primary-foreground);
+        }
+        
+        /* Navigation Elements */
+        .lark-nav-tab {
+            padding-bottom: 0.5rem;
+            padding-left: 0.25rem;
+            padding-right: 0.25rem;
+            display: flex;
+            align-items: center;
+            font-family: var(--font-stack-mono);
+            font-size: 0.875rem;
+            transition: all var(--animation-speed);
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            background: none;
+            border-left: none;
+            border-right: none;
+            border-top: none;
+        }
+        
+        .lark-nav-tab-active {
+            border-bottom: 2px solid var(--primary);
+            font-weight: var(--font-weight-medium);
+            color: var(--foreground);
+            position: relative;
+        }
+        
+        .lark-nav-tab-active::before {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: currentColor;
+        }
+        
+        .lark-nav-tab-inactive {
+            color: var(--muted-foreground);
+        }
+        
+        .lark-nav-tab-inactive:hover {
+            color: var(--foreground);
+        }
+
+        /* Brand Elements */
+        .lark-brand {
+            font-family: var(--font-stack-mono);
+            font-size: 0.875rem;
+            font-weight: var(--font-weight-medium);
+        }
+        
+        .lark-brand::before {
+            content: '.\\';
+            color: var(--primary);
+            margin-right: 0.25rem;
+            font-weight: bold;
+        }
+        
+        /* Status indicators */
+        .lark-status-dot {
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 50%;
+            background-color: var(--success);
+            animation: pulse 2s infinite;
+        }
+        
+        .lark-status-dot.warning {
+            background-color: var(--warning);
+        }
+        
+        .lark-status-dot.error {
+            background-color: var(--destructive);
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Utility Classes */
+        .container {
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        @media (min-width: 640px) {
+            .container { max-width: 640px; }
+        }
+
+        @media (min-width: 768px) {
+            .container { max-width: 768px; }
+        }
+
+        @media (min-width: 1024px) {
+            .container { max-width: 1024px; }
+        }
+
+        @media (min-width: 1280px) {
+            .container { max-width: 1280px; }
+        }
+
+        @media (min-width: 1536px) {
+            .container { max-width: 1536px; }
+        }
+
+        /* Mobile Responsive Adjustments */
+        @media (max-width: 640px) {
+            html {
+                font-size: 13px;
+            }
+            
+            .lark-button-ghost {
+                min-height: 44px;
+                padding: 0.75rem 1rem;
+            }
+            
+            .lark-input-standard {
+                min-height: 44px;
+                font-size: 16px; /* Prevent iOS zoom */
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .lark-nav-tab {
+                font-size: 0.8125rem;
+                padding: 0.5rem 0.25rem;
+            }
+            
+            .lark-card {
+                padding: 0.75rem;
+                margin: 0 -0.5rem;
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+            }
+        }
+
+        /* Switch Component Styles */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .switch-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--switch-background);
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .switch-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .switch-slider {
+            background-color: var(--primary);
+        }
+
+        input:checked + .switch-slider:before {
+            transform: translateX(20px);
+        }
+
+        /* Progress Component */
+        .progress {
+            width: 100%;
+            height: 8px;
+            background-color: var(--muted);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        /* Tabs Component */
+        .tabs-list {
+            display: inline-flex;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius);
+            background-color: var(--muted);
+            padding: 4px;
+        }
+
+        .tabs-trigger {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+            border-radius: calc(var(--radius) - 2px);
+            padding: 6px 12px;
+            font-size: 0.875rem;
+            font-weight: var(--font-weight-medium);
+            transition: all 0.15s ease;
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: var(--muted-foreground);
+        }
+
+        .tabs-trigger[data-state="active"] {
+            background-color: var(--background);
+            color: var(--foreground);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .tabs-content {
+            margin-top: 1rem;
+        }
+
+        /* Loading Animation */
         .animate-spin {
             animation: spin 1s linear infinite;
         }
-        
+
         @keyframes spin {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
-        
-        .transition-all {
-            transition: all 0.3s ease-in-out;
+
+        /* Responsive Grid */
+        .grid {
+            display: grid;
+        }
+
+        .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+        .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+        @media (min-width: 768px) {
+            .md\\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .md\\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+            .md\\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        }
+
+        /* Spacing Utilities */
+        .space-y-1 > * + * { margin-top: 0.25rem; }
+        .space-y-2 > * + * { margin-top: 0.5rem; }
+        .space-y-3 > * + * { margin-top: 0.75rem; }
+        .space-y-4 > * + * { margin-top: 1rem; }
+        .space-y-6 > * + * { margin-top: 1.5rem; }
+        .space-y-8 > * + * { margin-top: 2rem; }
+        .space-y-12 > * + * { margin-top: 3rem; }
+
+        .gap-1 { gap: 0.25rem; }
+        .gap-2 { gap: 0.5rem; }
+        .gap-3 { gap: 0.75rem; }
+        .gap-4 { gap: 1rem; }
+        .gap-6 { gap: 1.5rem; }
+
+        /* Flex Utilities */
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .flex-wrap { flex-wrap: wrap; }
+        .items-center { align-items: center; }
+        .items-start { align-items: flex-start; }
+        .justify-center { justify-content: center; }
+        .justify-between { justify-content: space-between; }
+        .flex-1 { flex: 1 1 0%; }
+        .flex-grow { flex-grow: 1; }
+
+        /* Text Utilities */
+        .text-center { text-align: center; }
+        .text-sm { font-size: 0.875rem; }
+        .text-xs { font-size: 0.75rem; }
+        .text-lg { font-size: 1.125rem; }
+        .text-xl { font-size: 1.25rem; }
+        .text-2xl { font-size: 1.5rem; }
+        .text-3xl { font-size: 1.875rem; }
+        .font-medium { font-weight: var(--font-weight-medium); }
+        .font-mono { font-family: var(--font-stack-mono); }
+        .uppercase { text-transform: uppercase; }
+        .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+        /* Colors */
+        .text-primary { color: var(--primary); }
+        .text-muted-foreground { color: var(--muted-foreground); }
+        .text-foreground { color: var(--foreground); }
+        .bg-primary { background-color: var(--primary); }
+        .bg-background { background-color: var(--background); }
+        .bg-card { background-color: var(--card); }
+        .bg-muted { background-color: var(--muted); }
+        .bg-accent { background-color: var(--accent); }
+
+        /* Spacing */
+        .p-0 { padding: 0; }
+        .p-1 { padding: 0.25rem; }
+        .p-2 { padding: 0.5rem; }
+        .p-3 { padding: 0.75rem; }
+        .p-4 { padding: 1rem; }
+        .p-6 { padding: 1.5rem; }
+        .p-8 { padding: 2rem; }
+        .px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
+        .px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
+        .px-4 { padding-left: 1rem; padding-right: 1rem; }
+        .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+        .py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+        .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+        .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+        .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+        .py-6 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+        .py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+        .pt-6 { padding-top: 1.5rem; }
+        .pb-2 { padding-bottom: 0.5rem; }
+        .pb-3 { padding-bottom: 0.75rem; }
+        .pl-10 { padding-left: 2.5rem; }
+        .pr-10 { padding-right: 2.5rem; }
+
+        .m-0 { margin: 0; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
+        .mt-1 { margin-top: 0.25rem; }
+        .mt-2 { margin-top: 0.5rem; }
+        .mt-3 { margin-top: 0.75rem; }
+        .mt-4 { margin-top: 1rem; }
+        .mt-6 { margin-top: 1.5rem; }
+        .mt-16 { margin-top: 4rem; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mb-3 { margin-bottom: 0.75rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-6 { margin-bottom: 1.5rem; }
+        .mr-1 { margin-right: 0.25rem; }
+        .mr-2 { margin-right: 0.5rem; }
+        .ml-1 { margin-left: 0.25rem; }
+        .ml-2 { margin-left: 0.5rem; }
+        .ml-auto { margin-left: auto; }
+
+        /* Width and Height */
+        .w-full { width: 100%; }
+        .w-64 { width: 16rem; }
+        .w-8 { width: 2rem; }
+        .w-10 { width: 2.5rem; }
+        .w-12 { width: 3rem; }
+        .h-8 { height: 2rem; }
+        .h-10 { height: 2.5rem; }
+        .h-12 { height: 3rem; }
+        .min-w-0 { min-width: 0px; }
+        .max-w-xl { max-width: 36rem; }
+        .max-w-2xl { max-width: 42rem; }
+        .max-w-3xl { max-width: 48rem; }
+        .max-w-6xl { max-width: 72rem; }
+        .min-h-screen { min-height: 100vh; }
+
+        /* Position */
+        .relative { position: relative; }
+        .absolute { position: absolute; }
+        .fixed { position: fixed; }
+        .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+        .top-0 { top: 0; }
+        .left-0 { left: 0; }
+        .right-2 { right: 0.5rem; }
+        .left-3 { left: 0.75rem; }
+        .top-1\/2 { top: 50%; }
+
+        /* Transform */
+        .transform { transform: var(--tw-transform); }
+        .-translate-y-1\/2 { transform: translateY(-50%); }
+
+        /* Border */
+        .border { border-width: 1px; }
+        .border-t { border-top-width: 1px; }
+        .border-b { border-bottom-width: 1px; }
+        .border-border { border-color: var(--border); }
+        .rounded { border-radius: var(--radius); }
+        .rounded-md { border-radius: var(--radius); }
+        .rounded-lg { border-radius: calc(var(--radius) + 2px); }
+        .rounded-full { border-radius: 9999px; }
+
+        /* Display */
+        .block { display: block; }
+        .inline { display: inline; }
+        .inline-block { display: inline-block; }
+        .inline-flex { display: inline-flex; }
+        .hidden { display: none; }
+
+        /* Overflow */
+        .overflow-hidden { overflow: hidden; }
+        .overflow-x-auto { overflow-x: auto; }
+        .overflow-y-auto { overflow-y: auto; }
+
+        /* Z-index */
+        .z-50 { z-index: 50; }
+
+        /* Cursor */
+        .cursor-pointer { cursor: pointer; }
+
+        /* Opacity */
+        .opacity-0 { opacity: 0; }
+        .opacity-100 { opacity: 1; }
+
+        /* Transitions */
+        .transition-all { transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+        .transition-colors { transition-property: color, background-color, border-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+        .duration-150 { transition-duration: 150ms; }
+        .duration-300 { transition-duration: 300ms; }
+        .ease-in-out { transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }
+
+        /* Responsive Visibility */
+        @media (min-width: 640px) {
+            .sm\\:px-4 { padding-left: 1rem; padding-right: 1rem; }
+            .sm\\:py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+            .sm\\:py-6 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+            .sm\\:px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+            .sm\\:gap-3 { gap: 0.75rem; }
+            .sm\\:gap-6 { gap: 1.5rem; }
+            .sm\\:text-base { font-size: 1rem; }
+            .sm\\:text-sm { font-size: 0.875rem; }
+            .sm\\:text-xl { font-size: 1.25rem; }
+            .sm\\:w-10 { width: 2.5rem; }
+            .sm\\:h-10 { height: 2.5rem; }
+            .sm\\:mt-6 { margin-top: 1.5rem; }
+            .sm\\:mb-6 { margin-bottom: 1.5rem; }
+            .sm\\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+            .sm\\:inline { display: inline; }
+            .sm\\:hidden { display: none; }
+        }
+
+        @media (min-width: 475px) {
+            .xs\\:inline { display: inline; }
+        }
+
+        /* Scrollbar Hide */
+        .scrollbar-hide {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
         }
         
-        .transition-transform {
-            transition: transform 0.2s ease-in-out;
-        }
-        
-        .transition-colors {
-            transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
         }
     </style>
 </head>
@@ -135,411 +928,1055 @@
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState, useEffect } = React;
-        const { 
-            Globe, 
-            Network, 
-            BarChart4, 
-            Laptop, 
-            Settings, 
-            ChevronDown, 
-            ChevronRight, 
-            Search, 
-            Loader2, 
-            Sun, 
-            Moon, 
-            FileDigit, 
-            Key, 
-            Shield, 
-            Brain,
-            Server,
-            Database,
-            Target,
-            Folder,
-            FolderOpen,
-            Play,
-            ExternalLink,
-            Info,
-            Terminal,
-            LineChart
-        } = lucide;
+        const { useState, useEffect, useMemo } = React;
 
-        // Mock data for demonstration
-        const mockTraceData = [
-            { id: 'dns', name: 'Root DNS Server', type: 'dns', latency: 35, ipAddress: '198.41.0.4', organization: 'ICANN' },
-            { id: 'tld', name: 'TLD DNS Server (.com)', type: 'dns', latency: 48, ipAddress: '192.5.6.30', organization: 'Verisign' },
-            { id: 'auth', name: 'Authoritative DNS', type: 'dns', latency: 62, ipAddress: '104.16.100.52', organization: 'Cloudflare' },
-            { id: 'cdn', name: 'CDN Edge Server', type: 'cdn', latency: 85, ipAddress: '104.18.22.41', organization: 'Cloudflare' },
-            { id: 'origin', name: 'Origin Server', type: 'server', latency: 120, ipAddress: '172.67.73.119', organization: 'AWS' }
+        // Mock Data Components
+        const mockGovernanceData = [
+            {
+                id: '1',
+                name: 'ICANN',
+                type: 'org',
+                description: 'Internet Corporation for Assigned Names and Numbers',
+                children: [
+                    {
+                        id: '1.1',
+                        name: 'IANA Functions Operator',
+                        type: 'technical',
+                        description: 'Internet Assigned Numbers Authority',
+                        children: [
+                            { id: '1.1.1', name: 'Root Zone Management', type: 'technical', description: 'DNS root zone operations' },
+                            { id: '1.1.2', name: 'Protocol Parameters', type: 'technical', description: 'Internet protocol registries' }
+                        ]
+                    }
+                ]
+            }
         ];
 
         // Button Component
-        const Button = ({ children, variant = 'default', size = 'default', className = '', onClick, disabled = false, ...props }) => {
-            const baseClasses = 'inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50';
-            
-            const variants = {
-                default: 'bg-primary text-primary-foreground hover:bg-primary/90',
-                outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
-                ghost: 'hover:bg-accent hover:text-accent-foreground',
-                secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
-            };
-            
-            const sizes = {
-                default: 'h-10 px-4 py-2',
-                sm: 'h-9 rounded-md px-3',
-                lg: 'h-11 rounded-md px-8',
-                icon: 'h-10 w-10'
-            };
-            
-            return (
-                <button
-                    className={`${baseClasses} ${variants[variant]} ${sizes[size]} ${className}`}
-                    onClick={onClick}
-                    disabled={disabled}
-                    {...props}
-                >
-                    {children}
-                </button>
-            );
+        const Button = ({ children, onClick, variant = 'default', size = 'default', className = '', disabled = false, ...props }) => {
+            let baseClass = 'lark-button-primary';
+            if (variant === 'ghost') baseClass = 'lark-button-ghost';
+            if (variant === 'outline') baseClass = 'lark-button-ghost';
+
+            return React.createElement('button', {
+                className: `${baseClass} ${className}`,
+                onClick: disabled ? undefined : onClick,
+                disabled,
+                ...props
+            }, children);
         };
 
-        // Card Component
-        const Card = ({ children, className = '', ...props }) => (
-            <div className={`rounded-lg border bg-card text-card-foreground shadow-sm ${className}`} {...props}>
-                {children}
-            </div>
-        );
-
         // Input Component
-        const Input = ({ className = '', ...props }) => (
-            <input
-                className={`flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${className}`}
-                {...props}
-            />
-        );
+        const Input = ({ className = '', ...props }) => {
+            return React.createElement('input', {
+                className: `lark-input-standard ${className}`,
+                ...props
+            });
+        };
+
+        // Card Components
+        const Card = ({ children, className = '', ...props }) => {
+            return React.createElement('div', {
+                className: `lark-card ${className}`,
+                ...props
+            }, children);
+        };
+
+        const CardContent = ({ children, className = '', ...props }) => {
+            return React.createElement('div', {
+                className: className,
+                ...props
+            }, children);
+        };
+
+        const CardHeader = ({ children, className = '', ...props }) => {
+            return React.createElement('div', {
+                className: `mb-4 ${className}`,
+                ...props
+            }, children);
+        };
+
+        const CardTitle = ({ children, className = '', ...props }) => {
+            return React.createElement('h3', {
+                className: className,
+                ...props
+            }, children);
+        };
+
+        // Switch Component
+        const Switch = ({ checked, onCheckedChange, id }) => {
+            return React.createElement('label', {
+                className: 'switch',
+                htmlFor: id
+            }, [
+                React.createElement('input', {
+                    key: 'input',
+                    type: 'checkbox',
+                    id: id,
+                    checked: checked,
+                    onChange: (e) => onCheckedChange && onCheckedChange(e.target.checked)
+                }),
+                React.createElement('span', {
+                    key: 'slider',
+                    className: 'switch-slider'
+                })
+            ]);
+        };
+
+        // Progress Component
+        const Progress = ({ value = 0, className = '' }) => {
+            return React.createElement('div', {
+                className: `progress ${className}`
+            }, React.createElement('div', {
+                className: 'progress-bar',
+                style: { width: `${Math.max(0, Math.min(100, value))}%` }
+            }));
+        };
 
         // Badge Component
         const Badge = ({ children, variant = 'default', className = '' }) => {
-            const variants = {
-                default: 'bg-primary text-primary-foreground hover:bg-primary/80',
-                secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
-                outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
-                destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/80'
-            };
+            let baseClass = 'lark-badge';
+            if (variant === 'outline') baseClass += ' border border-border bg-transparent';
             
-            return (
-                <div className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold transition-colors ${variants[variant]} ${className}`}>
-                    {children}
-                </div>
-            );
+            return React.createElement('span', {
+                className: `${baseClass} ${className}`
+            }, children);
         };
 
-        // Header Component
-        const Header = ({ toggleTheme, isDarkMode }) => (
-            <header className="border-b bg-background/80 backdrop-blur-sm sticky top-0 z-50">
-                <div className="container mx-auto flex items-center justify-between py-4 px-4">
-                    <div className="flex items-center space-x-4">
-                        <div className="flex items-center space-x-2">
-                            <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                                <Network className="size-4 text-primary" />
-                            </div>
-                            <div>
-                                <h1 className="text-lg font-semibold">Infrastructure Explorer</h1>
-                                <p className="text-xs text-muted-foreground">Network Analysis & Governance</p>
-                            </div>
-                        </div>
-                    </div>
-                    <Button variant="ghost" size="icon" onClick={toggleTheme}>
-                        {isDarkMode ? <Sun className="size-4" /> : <Moon className="size-4" />}
-                    </Button>
-                </div>
-            </header>
-        );
+        // Separator Component
+        const Separator = ({ className = '' }) => {
+            return React.createElement('div', {
+                className: `border-t border-border ${className}`
+            });
+        };
 
-        // Tree Menu Component
-        const TreeMenu = ({ isExpanded, onToggle }) => {
-            const [expandedNodes, setExpandedNodes] = useState(new Set(['network', 'analysis']));
+        // Tabs Components
+        const Tabs = ({ children, value, onValueChange, defaultValue }) => {
+            const [activeTab, setActiveTab] = useState(value || defaultValue);
             
-            const toggleNode = (nodeId) => {
-                setExpandedNodes(prev => {
-                    const newSet = new Set(prev);
-                    if (newSet.has(nodeId)) {
-                        newSet.delete(nodeId);
-                    } else {
-                        newSet.add(nodeId);
-                    }
-                    return newSet;
-                });
+            const handleValueChange = (newValue) => {
+                setActiveTab(newValue);
+                if (onValueChange) onValueChange(newValue);
             };
 
-            const treeData = [
-                {
-                    id: 'network',
-                    label: 'Network Analysis',
-                    icon: <Network className="size-4" />,
-                    children: [
-                        { id: 'tracer', label: 'Website Tracer', icon: <Laptop className="size-4" /> },
-                        { id: 'dns', label: 'DNS Lookup', icon: <Globe className="size-4" /> },
-                        { id: 'ports', label: 'Port Scanner', icon: <Server className="size-4" /> }
-                    ]
-                },
-                {
-                    id: 'analysis',
-                    label: 'Data Analysis',
-                    icon: <Brain className="size-4" />,
-                    children: [
-                        { id: 'pcap', label: 'PCAP Analysis', icon: <FileDigit className="size-4" /> },
-                        { id: 'crypto', label: 'Cryptography', icon: <Key className="size-4" /> },
-                        { id: 'security', label: 'Security Tools', icon: <Shield className="size-4" /> }
-                    ]
-                },
-                {
-                    id: 'governance',
-                    label: 'Governance',
-                    icon: <Database className="size-4" />,
-                    children: [
-                        { id: 'iana', label: 'IANA Hierarchy', icon: <Network className="size-4" /> },
-                        { id: 'registries', label: 'Registries', icon: <Database className="size-4" /> }
-                    ]
+            return React.createElement('div', {
+                className: 'tabs'
+            }, React.Children.map(children, child => {
+                if (React.isValidElement(child)) {
+                    return React.cloneElement(child, {
+                        activeTab,
+                        onValueChange: handleValueChange
+                    });
                 }
-            ];
-
-            const renderTreeNode = (node, level = 0) => {
-                const isNodeExpanded = expandedNodes.has(node.id);
-                const hasChildren = node.children && node.children.length > 0;
-                const paddingLeft = level * 12 + 8;
-
-                return (
-                    <div key={node.id}>
-                        <div 
-                            className="flex items-center gap-2 py-2 px-2 rounded-md cursor-pointer hover:bg-muted/50 transition-colors group"
-                            style={{ paddingLeft: `${paddingLeft}px` }}
-                            onClick={() => hasChildren && toggleNode(node.id)}
-                        >
-                            {hasChildren && (
-                                <div className="flex items-center justify-center w-4 h-4">
-                                    {isNodeExpanded ? 
-                                        <ChevronDown className="size-3 text-muted-foreground" /> : 
-                                        <ChevronRight className="size-3 text-muted-foreground" />
-                                    }
-                                </div>
-                            )}
-                            {!hasChildren && <div className="w-4 h-4" />}
-                            
-                            <div className="flex items-center justify-center w-6 h-6 rounded">
-                                {hasChildren ? (
-                                    isNodeExpanded ? <FolderOpen className="size-4 text-muted-foreground" /> : <Folder className="size-4 text-muted-foreground" />
-                                ) : (
-                                    <div className="text-primary bg-primary/10 rounded p-1">
-                                        {node.icon}
-                                    </div>
-                                )}
-                            </div>
-                            
-                            <span className="text-sm font-medium text-foreground">{node.label}</span>
-                            
-                            {!hasChildren && (
-                                <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity h-6 w-6 p-0 ml-auto">
-                                    <Play className="size-3" />
-                                </Button>
-                            )}
-                        </div>
-                        
-                        {hasChildren && isNodeExpanded && (
-                            <div className="space-y-1">
-                                {node.children.map(child => renderTreeNode(child, level + 1))}
-                            </div>
-                        )}
-                    </div>
-                );
-            };
-
-            return (
-                <Card className="overflow-hidden">
-                    <div className="flex items-center justify-between px-6 py-4 border-b border-border/40">
-                        <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                                <Settings className="size-5 text-primary" />
-                            </div>
-                            <div>
-                                <h2 className="font-medium">Operations Tree</h2>
-                                <p className="text-sm text-muted-foreground">Available tools and workflows</p>
-                            </div>
-                        </div>
-                        <Button variant="ghost" size="sm" onClick={onToggle} className="flex items-center gap-2">
-                            <span className="text-sm">{isExpanded ? 'Collapse' : 'Expand'}</span>
-                            <ChevronDown className={`size-4 transition-transform duration-200 ${isExpanded ? 'rotate-180' : 'rotate-0'}`} />
-                        </Button>
-                    </div>
-
-                    <div className={`transition-all duration-300 ease-in-out overflow-hidden ${isExpanded ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                        <div className="p-4">
-                            <div className="space-y-1 max-h-80 overflow-y-auto">
-                                {treeData.map(node => renderTreeNode(node))}
-                            </div>
-                        </div>
-                    </div>
-                </Card>
-            );
+                return child;
+            }));
         };
 
-        // Website Tracer Hero Component
-        const WebsiteTracer = ({ isExpanded, onToggle }) => {
+        const TabsList = ({ children, className = '', activeTab, onValueChange }) => {
+            return React.createElement('div', {
+                className: `tabs-list ${className}`
+            }, React.Children.map(children, child => {
+                if (React.isValidElement(child)) {
+                    return React.cloneElement(child, {
+                        activeTab,
+                        onValueChange
+                    });
+                }
+                return child;
+            }));
+        };
+
+        const TabsTrigger = ({ children, value, className = '', activeTab, onValueChange }) => {
+            const isActive = activeTab === value;
+            
+            return React.createElement('button', {
+                className: `tabs-trigger ${className}`,
+                'data-state': isActive ? 'active' : 'inactive',
+                onClick: () => onValueChange && onValueChange(value)
+            }, children);
+        };
+
+        const TabsContent = ({ children, value, className = '', activeTab }) => {
+            if (activeTab !== value) return null;
+            
+            return React.createElement('div', {
+                className: `tabs-content ${className}`
+            }, children);
+        };
+
+        // Website Tracer Component
+        const WebsiteTracer = ({ onSelectGovernanceEntity, heroStyle = false, className = '' }) => {
             const [url, setUrl] = useState('');
             const [isTracing, setIsTracing] = useState(false);
-            const [traceResults, setTraceResults] = useState(null);
+            const [traceResult, setTraceResult] = useState(null);
+            const [error, setError] = useState(null);
+            const [isHeroExpanded, setIsHeroExpanded] = useState(true);
 
             const handleTrace = async () => {
                 if (!url) return;
-                setIsTracing(true);
                 
-                // Simulate tracing
-                await new Promise(resolve => setTimeout(resolve, 2000));
-                setTraceResults(mockTraceData);
-                setIsTracing(false);
+                setIsTracing(true);
+                setError(null);
+                
+                try {
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+                    
+                    const mockTraceNodes = [
+                        {
+                            id: 'userRequest',
+                            type: 'org',
+                            name: 'User Request',
+                            description: 'Initial website request from user',
+                            children: [
+                                {
+                                    id: 'step1',
+                                    type: 'dns',
+                                    name: 'Root DNS Server',
+                                    description: 'Root DNS server operated by ICANN',
+                                    ipAddress: '198.41.0.4',
+                                    organization: 'ICANN',
+                                    governanceEntityId: '1',
+                                    latency: 35
+                                },
+                                {
+                                    id: 'step2',
+                                    type: 'dns',
+                                    name: 'TLD DNS Server (.com)',
+                                    description: 'Top Level Domain server for .com domains',
+                                    ipAddress: '192.5.6.30',
+                                    organization: 'Verisign',
+                                    governanceEntityId: '1.1.2',
+                                    latency: 48
+                                },
+                                {
+                                    id: 'step3',
+                                    type: 'server',
+                                    name: 'Origin Server',
+                                    description: 'Website origin hosting server',
+                                    ipAddress: '172.67.73.119',
+                                    location: 'San Francisco, USA',
+                                    organization: 'Amazon Web Services',
+                                    latency: 120
+                                }
+                            ]
+                        }
+                    ];
+
+                    setTraceResult({
+                        nodes: mockTraceNodes,
+                        totalTime: 203,
+                        status: 'success'
+                    });
+                } catch (err) {
+                    setError('Failed to trace website. Please check the URL and try again.');
+                } finally {
+                    setIsTracing(false);
+                }
             };
 
-            return (
-                <div className="bg-accent rounded-lg overflow-hidden">
-                    <div className="flex items-center justify-between px-6 py-4 border-b border-border/40">
-                        <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                                <Globe className="size-5 text-primary" />
-                            </div>
-                            <div>
-                                <h2 className="font-medium">Internet Infrastructure Explorer</h2>
-                                <p className="text-sm text-muted-foreground">Trace website infrastructure to IANA governance</p>
-                            </div>
-                        </div>
-                        <Button variant="ghost" size="sm" onClick={onToggle} className="flex items-center gap-2">
-                            <span className="text-sm">{isExpanded ? 'Collapse' : 'Expand'}</span>
-                            <ChevronDown className={`size-4 transition-transform duration-200 ${isExpanded ? 'rotate-180' : 'rotate-0'}`} />
-                        </Button>
-                    </div>
+            const toggleHeroSection = () => {
+                setIsHeroExpanded(prev => !prev);
+            };
 
-                    <div className={`transition-all duration-300 ease-in-out overflow-hidden ${isExpanded ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                        <div className="px-6 py-8">
-                            <div className="max-w-3xl mx-auto text-center mb-6">
-                                <h1 className="text-3xl font-bold mb-3">Internet Infrastructure Explorer</h1>
-                                <p className="text-muted-foreground mb-6 mx-auto max-w-2xl">
-                                    Trace any website's complete signal flow through DNS, IP addressing, and hosting
-                                    infrastructure to visualize how it connects to the IANA governance structure.
-                                </p>
-                                
-                                <div className="flex gap-2 max-w-xl mx-auto mb-6">
-                                    <div className="relative flex-grow">
-                                        <Globe className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground size-4" />
-                                        <Input
-                                            placeholder="Enter website URL (e.g., example.com)"
-                                            value={url}
-                                            onChange={(e) => setUrl(e.target.value)}
-                                            className="pl-10 h-12 text-base"
-                                        />
-                                    </div>
-                                    <Button onClick={handleTrace} disabled={isTracing || !url} size="lg" className="px-6">
-                                        {isTracing ? (
-                                            <>
-                                                <Loader2 className="size-4 mr-2 animate-spin" />
-                                                Tracing...
-                                            </>
-                                        ) : (
-                                            <>
-                                                <Search className="size-4 mr-2" />
-                                                Trace Website
-                                            </>
-                                        )}
-                                    </Button>
-                                </div>
-                            </div>
-                            
-                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto">
-                                <FeatureButton icon={<Globe />} title="DNS Infrastructure" description="Root servers to TLD" />
-                                <FeatureButton icon={<Server />} title="Hosting Analysis" description="CDNs and origin servers" />
-                                <FeatureButton icon={<Database />} title="Registry Data" description="IANA and RIRs" />
-                                <FeatureButton icon={<BarChart4 />} title="Performance Metrics" description="Latency and response time" />
-                            </div>
+            if (heroStyle) {
+                return React.createElement('div', {
+                    className: 'bg-accent rounded-lg overflow-hidden'
+                }, [
+                    React.createElement('div', {
+                        key: 'header',
+                        className: 'flex items-center justify-between px-6 py-4 border-b border-border'
+                    }, [
+                        React.createElement('div', {
+                            key: 'title',
+                            className: 'flex items-center gap-3'
+                        }, [
+                            React.createElement('div', {
+                                key: 'icon',
+                                className: 'w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center'
+                            }, React.createElement('span', { className: 'lark-icon' }, '🌐')),
+                            React.createElement('div', { key: 'text' }, [
+                                React.createElement('h2', {
+                                    key: 'h2',
+                                    className: 'font-medium'
+                                }, 'Internet Infrastructure Explorer'),
+                                React.createElement('p', {
+                                    key: 'p',
+                                    className: 'text-sm text-muted-foreground'
+                                }, 'Trace website infrastructure to IANA governance')
+                            ])
+                        ]),
+                        React.createElement(Button, {
+                            key: 'toggle',
+                            variant: 'ghost',
+                            size: 'sm',
+                            onClick: toggleHeroSection,
+                            className: 'flex items-center gap-2'
+                        }, [
+                            React.createElement('span', {
+                                key: 'text',
+                                className: 'text-sm'
+                            }, isHeroExpanded ? 'Collapse' : 'Expand'),
+                            React.createElement('span', {
+                                key: 'icon',
+                                className: `lark-icon transition-all duration-200 ${isHeroExpanded ? 'rotate-180' : 'rotate-0'}`
+                            }, '⌄')
+                        ])
+                    ]),
+                    React.createElement('div', {
+                        key: 'content',
+                        className: `transition-all duration-300 ease-in-out overflow-hidden ${isHeroExpanded ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'}`
+                    }, React.createElement('div', {
+                        className: 'px-6 py-8'
+                    }, [
+                        React.createElement('div', {
+                            key: 'hero-content',
+                            className: 'max-w-3xl mx-auto text-center mb-4'
+                        }, [
+                            React.createElement('h1', {
+                                key: 'h1',
+                                className: 'text-3xl mb-3'
+                            }, 'Internet Infrastructure Explorer'),
+                            React.createElement('p', {
+                                key: 'p',
+                                className: 'text-muted-foreground mb-6 mx-auto max-w-2xl'
+                            }, 'Trace any website\'s complete signal flow through DNS, IP addressing, and hosting infrastructure to visualize how it connects to the IANA governance structure.'),
+                            React.createElement('div', {
+                                key: 'input-section',
+                                className: 'flex gap-2 max-w-xl mx-auto'
+                            }, [
+                                React.createElement('div', {
+                                    key: 'input-wrapper',
+                                    className: 'relative flex-grow'
+                                }, [
+                                    React.createElement('span', {
+                                        key: 'icon',
+                                        className: 'lark-icon absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground'
+                                    }, '🌐'),
+                                    React.createElement(Input, {
+                                        key: 'input',
+                                        placeholder: 'Enter website URL (e.g., example.com)',
+                                        value: url,
+                                        onChange: (e) => setUrl(e.target.value),
+                                        className: 'pl-10 h-12 text-base'
+                                    })
+                                ]),
+                                React.createElement(Button, {
+                                    key: 'button',
+                                    onClick: handleTrace,
+                                    disabled: isTracing || !url,
+                                    className: 'px-6 h-12'
+                                }, [
+                                    isTracing ? [
+                                        React.createElement('span', {
+                                            key: 'spinner',
+                                            className: 'lark-icon mr-2 animate-spin'
+                                        }, '⟳'),
+                                        'Tracing...'
+                                    ] : [
+                                        React.createElement('span', {
+                                            key: 'icon',
+                                            className: 'lark-icon mr-2'
+                                        }, '🔍'),
+                                        'Trace Website'
+                                    ]
+                                ])
+                            ]),
+                            error && React.createElement('div', {
+                                key: 'error',
+                                className: 'bg-destructive text-destructive-foreground p-3 rounded-md text-sm mt-4 max-w-xl mx-auto'
+                            }, error)
+                        ])
+                    ]))
+                ]);
+            }
 
-                            {traceResults && (
-                                <div className="mt-8 max-w-4xl mx-auto">
-                                    <Card className="p-6">
-                                        <div className="flex justify-between items-center mb-6">
-                                            <div>
-                                                <h4 className="text-lg font-semibold">Signal Flow Visualization</h4>
-                                                <p className="text-muted-foreground">Complete path from user request to server response</p>
-                                            </div>
-                                            <Button variant="outline" size="sm" className="gap-1.5">
-                                                <ExternalLink className="size-4" />
-                                                View {url}
-                                            </Button>
-                                        </div>
-                                        
-                                        <div className="space-y-4">
-                                            {traceResults.map((step, index) => (
-                                                <div key={step.id} className="flex items-center gap-4 p-4 border rounded-lg">
-                                                    <div className="flex-shrink-0">
-                                                        <div className="w-8 h-8 bg-primary/10 text-primary rounded-full flex items-center justify-center font-medium">
-                                                            {index + 1}
-                                                        </div>
-                                                    </div>
-                                                    <div className="flex-grow">
-                                                        <div className="flex items-center gap-2 mb-1">
-                                                            <h5 className="font-medium">{step.name}</h5>
-                                                            <Badge variant="outline" className="text-xs">
-                                                                {step.type.toUpperCase()}
-                                                            </Badge>
-                                                        </div>
-                                                        <p className="text-sm text-muted-foreground">
-                                                            {step.ipAddress} • {step.organization}
-                                                        </p>
-                                                    </div>
-                                                    <div className="flex-shrink-0 text-right">
-                                                        <div className="text-sm font-medium">{step.latency}ms</div>
-                                                        <div className="text-xs text-muted-foreground">latency</div>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </Card>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </div>
-            );
+            return React.createElement(Card, {
+                className
+            }, React.createElement(CardContent, {
+                className: 'pt-6'
+            }, React.createElement('div', {
+                className: 'space-y-4'
+            }, [
+                React.createElement('h3', { key: 'title' }, 'Website Signal Flow Tracer'),
+                React.createElement('p', {
+                    key: 'description',
+                    className: 'text-muted-foreground'
+                }, 'Trace a website\'s complete signal flow through internet infrastructure, DNS, IP addressing, and hosting entities to visualize how it relates to the IANA governance structure.'),
+                React.createElement('div', {
+                    key: 'input-row',
+                    className: 'flex gap-2'
+                }, [
+                    React.createElement('div', {
+                        key: 'input-wrapper',
+                        className: 'relative flex-grow'
+                    }, [
+                        React.createElement('span', {
+                            key: 'icon',
+                            className: 'lark-icon absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground'
+                        }, '🌐'),
+                        React.createElement(Input, {
+                            key: 'input',
+                            placeholder: 'Enter website URL (e.g., example.com)',
+                            value: url,
+                            onChange: (e) => setUrl(e.target.value),
+                            className: 'pl-10'
+                        })
+                    ]),
+                    React.createElement(Button, {
+                        key: 'button',
+                        onClick: handleTrace,
+                        disabled: isTracing || !url
+                    }, [
+                        isTracing ? [
+                            React.createElement('span', {
+                                key: 'spinner',
+                                className: 'lark-icon mr-2 animate-spin'
+                            }, '⟳'),
+                            'Tracing...'
+                        ] : [
+                            React.createElement('span', {
+                                key: 'icon',
+                                className: 'lark-icon mr-2'
+                            }, '🔍'),
+                            'Trace'
+                        ]
+                    ])
+                ]),
+                error && React.createElement('div', {
+                    key: 'error',
+                    className: 'bg-destructive text-destructive-foreground p-3 rounded-md text-sm'
+                }, error)
+            ])));
         };
 
-        // Feature Button Component
-        const FeatureButton = ({ icon, title, description }) => (
-            <div className="flex flex-col items-center text-center p-3 rounded-lg transition-colors hover:bg-primary/5 cursor-pointer">
-                <div className="flex items-center gap-2 mb-1">
-                    <div className="w-8 h-8 flex items-center justify-center rounded-full bg-primary/10 text-primary">
-                        {React.cloneElement(icon, { className: "size-4" })}
-                    </div>
-                    <div className="font-medium text-sm">{title}</div>
-                </div>
-                <div className="text-xs text-muted-foreground">{description}</div>
-            </div>
-        );
+        // Theme Page Component (Simplified)
+        const ThemePage = ({ className = '' }) => {
+            const [isDarkMode, setIsDarkMode] = useState(false);
+            const [activeDemo, setActiveDemo] = useState('buttons');
 
-        // Main Tab Component
-        const MainTab = ({ id, label, icon, isActive, onClick }) => (
-            <button
-                className={`pb-2 px-1 flex items-center gap-1.5 ${
-                    isActive ? 'border-b-2 border-primary font-medium' : 'text-muted-foreground hover:text-foreground'
-                }`}
-                onClick={onClick}
-            >
-                {icon}
-                {label}
-            </button>
-        );
+            const toggleDarkMode = () => {
+                setIsDarkMode(!isDarkMode);
+                if (!isDarkMode) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            };
+
+            return React.createElement('div', {
+                className: `lark-layout-main bg-background text-foreground font-mono ${className}`
+            }, [
+                // Header
+                React.createElement('header', {
+                    key: 'header',
+                    className: 'border-b border-border bg-card'
+                }, React.createElement('div', {
+                    className: 'container mx-auto px-4 py-6'
+                }, React.createElement('div', {
+                    className: 'flex items-center justify-between'
+                }, [
+                    React.createElement('div', {
+                        key: 'title',
+                        className: 'flex items-center gap-3'
+                    }, [
+                        React.createElement('div', {
+                            key: 'icon',
+                            className: 'lark-icon-sm bg-primary text-primary-foreground rounded-full flex items-center justify-center w-10 h-10'
+                        }, React.createElement('span', { className: 'lark-icon' }, 'lk')),
+                        React.createElement('div', { key: 'text' }, [
+                            React.createElement('h1', {
+                                key: 'h1',
+                                className: 'font-mono font-medium'
+                            }, 'Lark Design System'),
+                            React.createElement('p', {
+                                key: 'p',
+                                className: 'text-sm text-muted-foreground'
+                            }, 'Terminal-first AI development environment')
+                        ])
+                    ]),
+                    React.createElement('div', {
+                        key: 'controls',
+                        className: 'flex items-center gap-4'
+                    }, [
+                        React.createElement('div', {
+                            key: 'switch-group',
+                            className: 'flex items-center gap-2'
+                        }, [
+                            React.createElement('span', {
+                                key: 'label',
+                                className: 'text-sm font-mono'
+                            }, 'dark mode'),
+                            React.createElement(Switch, {
+                                key: 'switch',
+                                checked: isDarkMode,
+                                onCheckedChange: toggleDarkMode,
+                                id: 'dark-mode-switch'
+                            })
+                        ]),
+                        React.createElement(Button, {
+                            key: 'download',
+                            className: 'lark-button-primary'
+                        }, [
+                            React.createElement('span', {
+                                key: 'icon',
+                                className: 'lark-icon mr-2'
+                            }, 'dl'),
+                            'Download'
+                        ])
+                    ])
+                ]))),
+
+                // Main Content
+                React.createElement('main', {
+                    key: 'main',
+                    className: 'container mx-auto px-4 py-8'
+                }, React.createElement('div', {
+                    className: 'max-w-6xl mx-auto space-y-12'
+                }, [
+                    // Introduction
+                    React.createElement('section', {
+                        key: 'intro',
+                        className: 'text-center space-y-4'
+                    }, [
+                        React.createElement('h2', {
+                            key: 'title',
+                            className: 'text-2xl font-mono font-medium mb-2'
+                        }, 'Terminal-First Design System'),
+                        React.createElement('p', {
+                            key: 'description',
+                            className: 'text-muted-foreground max-w-2xl mx-auto'
+                        }, 'Lark is a minimal, terminal-inspired design system focused on developer productivity and functional aesthetics. Built with text abbreviations, monospace typography, and Warp-style animations.'),
+                        React.createElement('div', {
+                            key: 'badges',
+                            className: 'flex justify-center gap-4 mt-6'
+                        }, [
+                            React.createElement('div', {
+                                key: 'version',
+                                className: 'lark-badge'
+                            }, [
+                                React.createElement('span', {
+                                    key: 'icon',
+                                    className: 'lark-icon mr-1'
+                                }, 'v'),
+                                '1.0.0'
+                            ]),
+                            React.createElement('div', {
+                                key: 'tailwind',
+                                className: 'lark-badge'
+                            }, [
+                                React.createElement('span', {
+                                    key: 'icon',
+                                    className: 'lark-icon mr-1'
+                                }, 'tw'),
+                                'Tailwind v4'
+                            ]),
+                            React.createElement('div', {
+                                key: 'react',
+                                className: 'lark-badge'
+                            }, [
+                                React.createElement('span', {
+                                    key: 'icon',
+                                    className: 'lark-icon mr-1'
+                                }, 'rt'),
+                                'React'
+                            ])
+                        ])
+                    ]),
+
+                    // Component Showcase
+                    React.createElement('section', {
+                        key: 'components',
+                        className: 'space-y-6'
+                    }, [
+                        React.createElement('div', {
+                            key: 'header',
+                            className: 'flex items-center gap-3'
+                        }, [
+                            React.createElement('span', {
+                                key: 'icon',
+                                className: 'lark-icon text-primary'
+                            }, 'cp'),
+                            React.createElement('h3', {
+                                key: 'title',
+                                className: 'text-xl font-mono font-medium'
+                            }, 'Component Library')
+                        ]),
+                        
+                        React.createElement(Tabs, {
+                            key: 'tabs',
+                            value: activeDemo,
+                            onValueChange: setActiveDemo
+                        }, [
+                            React.createElement(TabsList, {
+                                key: 'list',
+                                className: 'grid w-full grid-cols-4'
+                            }, [
+                                React.createElement(TabsTrigger, {
+                                    key: 'buttons',
+                                    value: 'buttons',
+                                    className: 'font-mono text-xs'
+                                }, [
+                                    React.createElement('span', {
+                                        key: 'icon',
+                                        className: 'lark-icon mr-1'
+                                    }, 'bt'),
+                                    'Buttons'
+                                ]),
+                                React.createElement(TabsTrigger, {
+                                    key: 'inputs',
+                                    value: 'inputs',
+                                    className: 'font-mono text-xs'
+                                }, [
+                                    React.createElement('span', {
+                                        key: 'icon',
+                                        className: 'lark-icon mr-1'
+                                    }, 'in'),
+                                    'Inputs'
+                                ]),
+                                React.createElement(TabsTrigger, {
+                                    key: 'cards',
+                                    value: 'cards',
+                                    className: 'font-mono text-xs'
+                                }, [
+                                    React.createElement('span', {
+                                        key: 'icon',
+                                        className: 'lark-icon mr-1'
+                                    }, 'cd'),
+                                    'Cards'
+                                ]),
+                                React.createElement(TabsTrigger, {
+                                    key: 'icons',
+                                    value: 'icons',
+                                    className: 'font-mono text-xs'
+                                }, [
+                                    React.createElement('span', {
+                                        key: 'icon',
+                                        className: 'lark-icon mr-1'
+                                    }, 'ic'),
+                                    'Icons'
+                                ])
+                            ]),
+
+                            React.createElement(TabsContent, {
+                                key: 'buttons-content',
+                                value: 'buttons',
+                                className: 'space-y-6'
+                            }, React.createElement(Card, {
+                                className: 'lark-card'
+                            }, [
+                                React.createElement(CardHeader, { key: 'header' }, React.createElement(CardTitle, {
+                                    className: 'font-mono text-sm'
+                                }, 'Button Patterns')),
+                                React.createElement(CardContent, {
+                                    key: 'content',
+                                    className: 'space-y-6'
+                                }, [
+                                    React.createElement('div', {
+                                        key: 'primary',
+                                        className: 'space-y-3'
+                                    }, [
+                                        React.createElement('h4', {
+                                            key: 'title',
+                                            className: 'font-mono text-sm font-medium'
+                                        }, 'Primary Buttons'),
+                                        React.createElement('div', {
+                                            key: 'buttons',
+                                            className: 'flex flex-wrap gap-3'
+                                        }, [
+                                            React.createElement(Button, {
+                                                key: 'execute',
+                                                className: 'lark-button-primary'
+                                            }, [
+                                                React.createElement('span', {
+                                                    key: 'icon',
+                                                    className: 'lark-icon mr-2'
+                                                }, 'ex'),
+                                                'Execute'
+                                            ]),
+                                            React.createElement(Button, {
+                                                key: 'loading',
+                                                className: 'lark-button-primary',
+                                                disabled: true
+                                            }, [
+                                                React.createElement('span', {
+                                                    key: 'icon',
+                                                    className: 'lark-icon mr-2'
+                                                }, 'ld'),
+                                                'Loading...'
+                                            ]),
+                                            React.createElement(Button, {
+                                                key: 'small',
+                                                className: 'lark-button-primary text-xs px-3 py-1'
+                                            }, [
+                                                React.createElement('span', {
+                                                    key: 'icon',
+                                                    className: 'lark-icon mr-1'
+                                                }, 'sm'),
+                                                'Small'
+                                            ])
+                                        ])
+                                    ]),
+                                    React.createElement(Separator, { key: 'sep1' }),
+                                    React.createElement('div', {
+                                        key: 'ghost',
+                                        className: 'space-y-3'
+                                    }, [
+                                        React.createElement('h4', {
+                                            key: 'title',
+                                            className: 'font-mono text-sm font-medium'
+                                        }, 'Ghost Buttons'),
+                                        React.createElement('div', {
+                                            key: 'buttons',
+                                            className: 'flex flex-wrap gap-3'
+                                        }, [
+                                            React.createElement(Button, {
+                                                key: 'configure',
+                                                variant: 'ghost',
+                                                className: 'lark-button-ghost'
+                                            }, [
+                                                React.createElement('span', {
+                                                    key: 'icon',
+                                                    className: 'lark-icon mr-2'
+                                                }, 'cf'),
+                                                'Configure'
+                                            ]),
+                                            React.createElement(Button, {
+                                                key: 'settings',
+                                                variant: 'ghost',
+                                                className: 'lark-button-ghost'
+                                            }, [
+                                                React.createElement('span', {
+                                                    key: 'icon',
+                                                    className: 'lark-icon mr-2'
+                                                }, 'st'),
+                                                'Settings'
+                                            ])
+                                        ])
+                                    ]),
+                                    React.createElement(Separator, { key: 'sep2' }),
+                                    React.createElement('div', {
+                                        key: 'abbreviation',
+                                        className: 'space-y-3'
+                                    }, [
+                                        React.createElement('h4', {
+                                            key: 'title',
+                                            className: 'font-mono text-sm font-medium'
+                                        }, 'Abbreviation Buttons'),
+                                        React.createElement('div', {
+                                            key: 'buttons',
+                                            className: 'flex flex-wrap gap-2'
+                                        }, [
+                                            React.createElement('button', {
+                                                key: 'sv',
+                                                className: 'lark-button-abbreviation'
+                                            }, React.createElement('span', { className: 'lark-icon' }, 'sv')),
+                                            React.createElement('button', {
+                                                key: 'ed',
+                                                className: 'lark-button-abbreviation'
+                                            }, React.createElement('span', { className: 'lark-icon' }, 'ed')),
+                                            React.createElement('button', {
+                                                key: 'dl',
+                                                className: 'lark-button-abbreviation'
+                                            }, React.createElement('span', { className: 'lark-icon' }, 'dl')),
+                                            React.createElement('button', {
+                                                key: 'active',
+                                                className: 'lark-button-abbreviation bg-primary text-primary-foreground'
+                                            }, React.createElement('span', { className: 'lark-icon' }, 'ac'))
+                                        ])
+                                    ])
+                                ])
+                            ])),
+
+                            React.createElement(TabsContent, {
+                                key: 'inputs-content',
+                                value: 'inputs'
+                            }, React.createElement(Card, {
+                                className: 'lark-card'
+                            }, [
+                                React.createElement(CardHeader, { key: 'header' }, React.createElement(CardTitle, {
+                                    className: 'font-mono text-sm'
+                                }, 'Input Patterns')),
+                                React.createElement(CardContent, {
+                                    key: 'content',
+                                    className: 'space-y-6'
+                                }, [
+                                    React.createElement('div', {
+                                        key: 'inputs',
+                                        className: 'space-y-3'
+                                    }, [
+                                        React.createElement('h4', {
+                                            key: 'title',
+                                            className: 'font-mono text-sm font-medium'
+                                        }, 'Standard Inputs'),
+                                        React.createElement('div', {
+                                            key: 'input-examples',
+                                            className: 'space-y-3 max-w-md'
+                                        }, [
+                                            React.createElement(Input, {
+                                                key: 'command',
+                                                placeholder: 'Enter command...',
+                                                className: 'lark-input-standard'
+                                            }),
+                                            React.createElement(Input, {
+                                                key: 'search',
+                                                placeholder: 'Search tools...',
+                                                className: 'lark-input-standard'
+                                            }),
+                                            React.createElement('div', {
+                                                key: 'icon-input',
+                                                className: 'relative'
+                                            }, [
+                                                React.createElement('span', {
+                                                    key: 'icon',
+                                                    className: 'lark-icon absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground'
+                                                }, 'sr'),
+                                                React.createElement(Input, {
+                                                    key: 'input',
+                                                    placeholder: 'Search with icon...',
+                                                    className: 'lark-input-standard pl-10'
+                                                })
+                                            ])
+                                        ])
+                                    ]),
+                                    React.createElement(Separator, { key: 'sep' }),
+                                    React.createElement('div', {
+                                        key: 'controls',
+                                        className: 'space-y-3'
+                                    }, [
+                                        React.createElement('h4', {
+                                            key: 'title',
+                                            className: 'font-mono text-sm font-medium'
+                                        }, 'Form Controls'),
+                                        React.createElement('div', {
+                                            key: 'control-examples',
+                                            className: 'space-y-4 max-w-md'
+                                        }, [
+                                            React.createElement('div', {
+                                                key: 'switch',
+                                                className: 'flex items-center gap-2'
+                                            }, [
+                                                React.createElement(Switch, {
+                                                    key: 'switch-control',
+                                                    id: 'terminal-mode'
+                                                }),
+                                                React.createElement('label', {
+                                                    key: 'label',
+                                                    htmlFor: 'terminal-mode',
+                                                    className: 'font-mono text-sm'
+                                                }, 'Terminal Mode')
+                                            ]),
+                                            React.createElement('div', {
+                                                key: 'progress',
+                                                className: 'space-y-2'
+                                            }, [
+                                                React.createElement('label', {
+                                                    key: 'label',
+                                                    className: 'font-mono text-sm'
+                                                }, 'Progress'),
+                                                React.createElement(Progress, {
+                                                    key: 'bar',
+                                                    value: 75,
+                                                    className: 'w-full'
+                                                })
+                                            ])
+                                        ])
+                                    ])
+                                ])
+                            ])),
+
+                            React.createElement(TabsContent, {
+                                key: 'cards-content',
+                                value: 'cards'
+                            }, React.createElement('div', {
+                                className: 'grid grid-cols-1 md:grid-cols-2 gap-6'
+                            }, [
+                                React.createElement(Card, {
+                                    key: 'standard',
+                                    className: 'lark-card'
+                                }, [
+                                    React.createElement(CardHeader, { key: 'header' }, React.createElement(CardTitle, {
+                                        className: 'font-mono text-sm flex items-center gap-2'
+                                    }, [
+                                        React.createElement('span', {
+                                            key: 'icon',
+                                            className: 'lark-icon'
+                                        }, 'cd'),
+                                        'Standard Card'
+                                    ])),
+                                    React.createElement(CardContent, { key: 'content' }, React.createElement('p', {
+                                        className: 'font-mono text-sm text-muted-foreground'
+                                    }, 'Basic card pattern with header and content. Uses border and background styling.'))
+                                ]),
+                                React.createElement(Card, {
+                                    key: 'interactive',
+                                    className: 'lark-card-interactive'
+                                }, [
+                                    React.createElement(CardHeader, { key: 'header' }, React.createElement(CardTitle, {
+                                        className: 'font-mono text-sm flex items-center gap-2'
+                                    }, [
+                                        React.createElement('span', {
+                                            key: 'icon',
+                                            className: 'lark-icon'
+                                        }, 'in'),
+                                        'Interactive Card'
+                                    ])),
+                                    React.createElement(CardContent, { key: 'content' }, React.createElement('p', {
+                                        className: 'font-mono text-sm text-muted-foreground'
+                                    }, 'Interactive card with hover effects and cursor pointer. Click me!'))
+                                ])
+                            ])),
+
+                            React.createElement(TabsContent, {
+                                key: 'icons-content',
+                                value: 'icons'
+                            }, React.createElement(Card, {
+                                className: 'lark-card'
+                            }, [
+                                React.createElement(CardHeader, { key: 'header' }, React.createElement(CardTitle, {
+                                    className: 'font-mono text-sm'
+                                }, 'Text Abbreviation Icons')),
+                                React.createElement(CardContent, {
+                                    key: 'content',
+                                    className: 'space-y-6'
+                                }, [
+                                    React.createElement('div', {
+                                        key: 'abbreviations',
+                                        className: 'space-y-3'
+                                    }, [
+                                        React.createElement('h4', {
+                                            key: 'title',
+                                            className: 'font-mono text-sm font-medium'
+                                        }, 'Common Abbreviations'),
+                                        React.createElement('div', {
+                                            key: 'icons',
+                                            className: 'grid grid-cols-4 md:grid-cols-8 gap-4'
+                                        }, [
+                                            { abbr: 'sv', label: 'Save' },
+                                            { abbr: 'ed', label: 'Edit' },
+                                            { abbr: 'dl', label: 'Delete' },
+                                            { abbr: 'sh', label: 'Share' },
+                                            { abbr: 'cf', label: 'Config' },
+                                            { abbr: 'st', label: 'Settings' },
+                                            { abbr: 'sr', label: 'Search' },
+                                            { abbr: 'fl', label: 'Filter' }
+                                        ].map((icon) => React.createElement('div', {
+                                            key: icon.abbr,
+                                            className: 'text-center space-y-1'
+                                        }, [
+                                            React.createElement('div', {
+                                                key: 'icon',
+                                                className: 'lark-icon bg-muted rounded flex items-center justify-center w-8 h-8'
+                                            }, icon.abbr),
+                                            React.createElement('p', {
+                                                key: 'label',
+                                                className: 'font-mono text-xs text-muted-foreground'
+                                            }, icon.label)
+                                        ])))
+                                    ]),
+                                    React.createElement(Separator, { key: 'sep' }),
+                                    React.createElement('div', {
+                                        key: 'status',
+                                        className: 'space-y-3'
+                                    }, [
+                                        React.createElement('h4', {
+                                            key: 'title',
+                                            className: 'font-mono text-sm font-medium'
+                                        }, 'Status Indicators'),
+                                        React.createElement('div', {
+                                            key: 'indicators',
+                                            className: 'flex items-center gap-4'
+                                        }, [
+                                            React.createElement('div', {
+                                                key: 'active',
+                                                className: 'flex items-center gap-2'
+                                            }, [
+                                                React.createElement('div', {
+                                                    key: 'dot',
+                                                    className: 'lark-status-dot'
+                                                }),
+                                                React.createElement('span', {
+                                                    key: 'label',
+                                                    className: 'font-mono text-sm'
+                                                }, 'Active')
+                                            ]),
+                                            React.createElement('div', {
+                                                key: 'warning',
+                                                className: 'flex items-center gap-2'
+                                            }, [
+                                                React.createElement('div', {
+                                                    key: 'dot',
+                                                    className: 'lark-status-dot warning'
+                                                }),
+                                                React.createElement('span', {
+                                                    key: 'label',
+                                                    className: 'font-mono text-sm'
+                                                }, 'Warning')
+                                            ]),
+                                            React.createElement('div', {
+                                                key: 'error',
+                                                className: 'flex items-center gap-2'
+                                            }, [
+                                                React.createElement('div', {
+                                                    key: 'dot',
+                                                    className: 'lark-status-dot error'
+                                                }),
+                                                React.createElement('span', {
+                                                    key: 'label',
+                                                    className: 'font-mono text-sm'
+                                                }, 'Error')
+                                            ])
+                                        ])
+                                    ])
+                                ])
+                            ]))
+                        ])
+                    ])
+                ])),
+
+                // Footer
+                React.createElement('footer', {
+                    key: 'footer',
+                    className: 'border-t border-border bg-card mt-16'
+                }, React.createElement('div', {
+                    className: 'container mx-auto px-4 py-6'
+                }, React.createElement('div', {
+                    className: 'flex items-center justify-between'
+                }, [
+                    React.createElement('div', {
+                        key: 'brand',
+                        className: 'flex items-center gap-2'
+                    }, [
+                        React.createElement('span', {
+                            key: 'name',
+                            className: 'lark-brand'
+                        }, 'lark'),
+                        React.createElement('span', {
+                            key: 'subtitle',
+                            className: 'font-mono text-xs text-muted-foreground'
+                        }, 'design system')
+                    ]),
+                    React.createElement('div', {
+                        key: 'status',
+                        className: 'flex items-center gap-4'
+                    }, [
+                        React.createElement('span', {
+                            key: 'text',
+                            className: 'font-mono text-xs text-muted-foreground'
+                        }, 'Terminal-first development environment'),
+                        React.createElement('div', {
+                            key: 'dot',
+                            className: 'lark-status-dot'
+                        })
+                    ])
+                ])))
+            ]);
+        };
 
         // Main App Component
         const App = () => {
             const [darkMode, setDarkMode] = useState(false);
             const [activeTab, setActiveTab] = useState('website-tracer');
             const [isTreeMenuExpanded, setIsTreeMenuExpanded] = useState(true);
-            const [isTracerExpanded, setIsTracerExpanded] = useState(true);
 
             useEffect(() => {
                 if (darkMode) {
@@ -549,139 +1986,290 @@
                 }
             }, [darkMode]);
 
-            const toggleTheme = () => setDarkMode(!darkMode);
+            const toggleTheme = () => {
+                setDarkMode(!darkMode);
+            };
 
-            return (
-                <div className="flex flex-col min-h-screen bg-background text-foreground">
-                    <Header toggleTheme={toggleTheme} isDarkMode={darkMode} />
+            const toggleTreeMenu = () => {
+                setIsTreeMenuExpanded(prev => !prev);
+            };
+
+            const handleSelectGovernanceEntity = (id) => {
+                setActiveTab('governance');
+            };
+
+            const MainTab = ({ id, label, fullLabel, abbr, isActive, onClick }) => {
+                return React.createElement('button', {
+                    className: `lark-nav-tab animate-underline ${isActive ? 'lark-nav-tab-active' : 'lark-nav-tab-inactive'}`,
+                    onClick: onClick,
+                    title: fullLabel
+                }, [
+                    React.createElement('span', {
+                        key: 'icon',
+                        className: 'lark-icon mr-1'
+                    }, abbr),
+                    React.createElement('span', {
+                        key: 'sm-label',
+                        className: 'sm:hidden font-mono'
+                    }, label),
+                    React.createElement('span', {
+                        key: 'full-label',
+                        className: 'hidden sm:inline font-mono'
+                    }, fullLabel)
+                ]);
+            };
+
+            // If theme tab is active, render the theme page directly
+            if (activeTab === 'theme') {
+                return React.createElement(ThemePage);
+            }
+
+            return React.createElement('div', {
+                className: 'lark-layout-main bg-background text-foreground font-mono'
+            }, [
+                // Header
+                React.createElement('header', {
+                    key: 'header',
+                    className: 'border-b border-border bg-card'
+                }, React.createElement('div', {
+                    className: 'container mx-auto px-4 py-4'
+                }, React.createElement('div', {
+                    className: 'flex items-center justify-between'
+                }, [
+                    React.createElement('div', {
+                        key: 'brand',
+                        className: 'flex items-center gap-3'
+                    }, [
+                        React.createElement('div', {
+                            key: 'icon',
+                            className: 'w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center'
+                        }, React.createElement('span', { className: 'lark-icon' }, 'lk')),
+                        React.createElement('div', { key: 'text' }, [
+                            React.createElement('h1', {
+                                key: 'title',
+                                className: 'font-mono font-medium text-sm'
+                            }, 'Lark Design System'),
+                            React.createElement('p', {
+                                key: 'subtitle',
+                                className: 'font-mono text-xs text-muted-foreground'
+                            }, 'Internet Infrastructure Explorer')
+                        ])
+                    ]),
+                    React.createElement('div', {
+                        key: 'controls',
+                        className: 'flex items-center gap-4'
+                    }, [
+                        React.createElement('div', {
+                            key: 'theme-toggle',
+                            className: 'flex items-center gap-2'
+                        }, [
+                            React.createElement('span', {
+                                key: 'label',
+                                className: 'font-mono text-xs'
+                            }, 'dark'),
+                            React.createElement(Switch, {
+                                key: 'switch',
+                                checked: darkMode,
+                                onCheckedChange: toggleTheme,
+                                id: 'theme-switch'
+                            })
+                        ])
+                    ])
+                ]))),
+
+                // Tree Menu Section
+                React.createElement('div', {
+                    key: 'tree-menu',
+                    className: 'container mx-auto px-4 py-4'
+                }, React.createElement('div', {
+                    className: 'lark-card overflow-hidden'
+                }, [
+                    React.createElement('div', {
+                        key: 'header',
+                        className: 'flex items-center justify-between px-6 py-4 border-b border-border'
+                    }, [
+                        React.createElement('div', {
+                            key: 'title',
+                            className: 'flex items-center gap-3 min-w-0 flex-1'
+                        }, [
+                            React.createElement('div', {
+                                key: 'icon',
+                                className: 'lark-icon-sm bg-primary text-primary-foreground rounded-full flex items-center justify-center flex-shrink-0 w-10 h-10'
+                            }, React.createElement('span', { className: 'lark-icon' }, 'st')),
+                            React.createElement('div', {
+                                key: 'text',
+                                className: 'min-w-0 flex-1'
+                            }, [
+                                React.createElement('h2', {
+                                    key: 'h2',
+                                    className: 'font-mono font-medium text-base truncate'
+                                }, 'operations tree'),
+                                React.createElement('p', {
+                                    key: 'p',
+                                    className: 'font-mono text-sm text-muted-foreground truncate'
+                                }, 'available tools and workflows')
+                            ])
+                        ]),
+                        React.createElement(Button, {
+                            key: 'toggle',
+                            variant: 'ghost',
+                            onClick: toggleTreeMenu,
+                            className: 'lark-button-ghost animate-accent-line'
+                        }, [
+                            React.createElement('span', {
+                                key: 'text',
+                                className: 'font-mono text-sm hidden sm:inline'
+                            }, isTreeMenuExpanded ? 'hide' : 'show'),
+                            React.createElement('span', {
+                                key: 'icon',
+                                className: 'lark-icon ml-1'
+                            }, isTreeMenuExpanded ? 'v' : '^')
+                        ])
+                    ]),
+                    React.createElement('div', {
+                        key: 'content',
+                        className: `transition-all duration-300 ease-in-out overflow-hidden ${isTreeMenuExpanded ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'}`
+                    }, React.createElement('div', {
+                        className: 'p-4'
+                    }, React.createElement('p', {
+                        className: 'font-mono text-sm text-muted-foreground'
+                    }, 'Tool search and navigation would appear here in the full application.')))
+                ])),
+
+                // Hero Website Tracer
+                React.createElement('div', {
+                    key: 'hero-tracer',
+                    className: 'container mx-auto px-4'
+                }, React.createElement(WebsiteTracer, {
+                    onSelectGovernanceEntity: handleSelectGovernanceEntity,
+                    heroStyle: true
+                })),
+
+                // Main Content
+                React.createElement('main', {
+                    key: 'main',
+                    className: 'flex-1 container mx-auto py-6 px-4'
+                }, React.createElement('div', {
+                    className: 'lark-card'
+                }, [
+                    React.createElement('h2', {
+                        key: 'title',
+                        className: 'mb-4 font-mono text-xl'
+                    }, 'internet governance tree - infrastructure explorer'),
                     
-                    <div className="container mx-auto px-4 py-4">
-                        <TreeMenu 
-                            isExpanded={isTreeMenuExpanded} 
-                            onToggle={() => setIsTreeMenuExpanded(!isTreeMenuExpanded)} 
-                        />
-                    </div>
+                    // Navigation tabs
+                    React.createElement('div', {
+                        key: 'nav',
+                        className: 'border-b mb-4'
+                    }, React.createElement('div', {
+                        className: 'flex gap-6 overflow-x-auto scrollbar-hide pb-2'
+                    }, [
+                        React.createElement(MainTab, {
+                            key: 'governance',
+                            id: 'governance',
+                            label: 'gov',
+                            fullLabel: 'governance structure',
+                            abbr: 'gv',
+                            isActive: activeTab === 'governance',
+                            onClick: () => setActiveTab('governance')
+                        }),
+                        React.createElement(MainTab, {
+                            key: 'website-tracer',
+                            id: 'website-tracer',
+                            label: 'trace',
+                            fullLabel: 'website tracer',
+                            abbr: 'tr',
+                            isActive: activeTab === 'website-tracer',
+                            onClick: () => setActiveTab('website-tracer')
+                        }),
+                        React.createElement(MainTab, {
+                            key: 'data-analysis',
+                            id: 'data-analysis',
+                            label: 'data',
+                            fullLabel: 'data analysis',
+                            abbr: 'da',
+                            isActive: activeTab === 'data-analysis',
+                            onClick: () => setActiveTab('data-analysis')
+                        }),
+                        React.createElement(MainTab, {
+                            key: 'theme',
+                            id: 'theme',
+                            label: 'theme',
+                            fullLabel: 'design system',
+                            abbr: 'lk',
+                            isActive: activeTab === 'theme',
+                            onClick: () => setActiveTab('theme')
+                        })
+                    ])),
                     
-                    <div className="container mx-auto px-4 py-4">
-                        <WebsiteTracer 
-                            isExpanded={isTracerExpanded} 
-                            onToggle={() => setIsTracerExpanded(!isTracerExpanded)} 
-                        />
-                    </div>
-                    
-                    <main className="flex-1 container mx-auto py-6 px-4">
-                        <Card className="p-6">
-                            <h2 className="text-xl font-semibold mb-4">Internet Governance and Infrastructure Explorer</h2>
-                            
-                            <div className="border-b mb-6">
-                                <div className="flex space-x-6">
-                                    <MainTab 
-                                        id="governance" 
-                                        label="Governance Structure" 
-                                        icon={<Network className="size-4" />}
-                                        isActive={activeTab === "governance"}
-                                        onClick={() => setActiveTab("governance")}
-                                    />
-                                    <MainTab 
-                                        id="website-tracer" 
-                                        label="Website Tracer" 
-                                        icon={<Laptop className="size-4" />}
-                                        isActive={activeTab === "website-tracer"}
-                                        onClick={() => setActiveTab("website-tracer")}
-                                    />
-                                    <MainTab 
-                                        id="data-analysis" 
-                                        label="Data Analysis" 
-                                        icon={<BarChart4 className="size-4" />}
-                                        isActive={activeTab === "data-analysis"}
-                                        onClick={() => setActiveTab("data-analysis")}
-                                    />
-                                </div>
-                            </div>
-                            
-                            <div className="space-y-6">
-                                {activeTab === 'governance' && (
-                                    <div>
-                                        <h3 className="text-lg font-semibold mb-4">Internet Governance Structure</h3>
-                                        <p className="text-muted-foreground mb-4">
-                                            Explore the hierarchical structure of internet governance, from IANA to regional registries and CDN providers.
-                                        </p>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                                            <Card className="p-4">
-                                                <h4 className="font-medium mb-2">IANA (Internet Assigned Numbers Authority)</h4>
-                                                <p className="text-sm text-muted-foreground">Global coordination of DNS root, IP addressing, and protocol parameters.</p>
-                                            </Card>
-                                            <Card className="p-4">
-                                                <h4 className="font-medium mb-2">Regional Internet Registries</h4>
-                                                <p className="text-sm text-muted-foreground">ARIN, RIPE, APNIC, LACNIC, and AFRINIC manage regional IP allocation.</p>
-                                            </Card>
-                                            <Card className="p-4">
-                                                <h4 className="font-medium mb-2">CDN Providers</h4>
-                                                <p className="text-sm text-muted-foreground">Cloudflare, Akamai, AWS CloudFront, and other content delivery networks.</p>
-                                            </Card>
-                                        </div>
-                                    </div>
-                                )}
-                                
-                                {activeTab === 'website-tracer' && (
-                                    <div>
-                                        <h3 className="text-lg font-semibold mb-4">Website Signal Flow Tracer</h3>
-                                        <p className="text-muted-foreground mb-4">
-                                            Trace a website's complete signal flow through internet infrastructure, DNS, IP addressing, 
-                                            and hosting entities to visualize how it relates to the IANA governance structure.
-                                        </p>
-                                        <div className="text-center py-8">
-                                            <p className="text-muted-foreground">Use the Website Tracer section above to analyze any website's infrastructure.</p>
-                                        </div>
-                                    </div>
-                                )}
-                                
-                                {activeTab === 'data-analysis' && (
-                                    <div>
-                                        <h3 className="text-lg font-semibold mb-4">Data Analysis Tools</h3>
-                                        <p className="text-muted-foreground mb-4">
-                                            Comprehensive suite of network analysis, security, and data processing tools.
-                                        </p>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                                            <Card className="p-4">
-                                                <div className="flex items-center gap-2 mb-2">
-                                                    <FileDigit className="size-4 text-primary" />
-                                                    <h4 className="font-medium">PCAP Analysis</h4>
-                                                </div>
-                                                <p className="text-sm text-muted-foreground">Analyze network packet captures to identify traffic patterns and security issues.</p>
-                                            </Card>
-                                            <Card className="p-4">
-                                                <div className="flex items-center gap-2 mb-2">
-                                                    <Brain className="size-4 text-primary" />
-                                                    <h4 className="font-medium">ML Analysis</h4>
-                                                </div>
-                                                <p className="text-sm text-muted-foreground">Machine learning models for data analysis and pattern recognition.</p>
-                                            </Card>
-                                            <Card className="p-4">
-                                                <div className="flex items-center gap-2 mb-2">
-                                                    <Shield className="size-4 text-primary" />
-                                                    <h4 className="font-medium">Security Tools</h4>
-                                                </div>
-                                                <p className="text-sm text-muted-foreground">Comprehensive security analysis and penetration testing tools.</p>
-                                            </Card>
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-                        </Card>
-                    </main>
-                    
-                    <footer className="border-t py-4 text-center text-muted-foreground text-sm bg-card">
-                        <div className="container mx-auto">
-                            Internet Infrastructure Explorer &copy; 2024. Data provided for illustrative purposes only.
-                        </div>
-                    </footer>
-                </div>
-            );
+                    // Content area
+                    React.createElement('div', {
+                        key: 'content',
+                        className: 'mt-6'
+                    }, activeTab === 'governance' ? React.createElement('div', {
+                        className: 'space-y-4'
+                    }, [
+                        React.createElement('h3', {
+                            key: 'title',
+                            className: 'font-mono text-lg'
+                        }, 'Internet Governance Structure'),
+                        React.createElement('p', {
+                            key: 'description',
+                            className: 'text-muted-foreground'
+                        }, 'Explore the hierarchical structure of internet governance organizations, from ICANN to regional registries.')
+                    ]) : activeTab === 'website-tracer' ? React.createElement('div', {
+                        className: 'space-y-4'
+                    }, [
+                        React.createElement('p', {
+                            key: 'description',
+                            className: 'font-mono text-muted-foreground mb-6'
+                        }, 'explore how websites connect to the internet through dns, cdns, and servers. trace the relationships to internet governance organizations.'),
+                        React.createElement(WebsiteTracer, {
+                            key: 'tracer',
+                            onSelectGovernanceEntity: handleSelectGovernanceEntity,
+                            heroStyle: false
+                        })
+                    ]) : activeTab === 'data-analysis' ? React.createElement('div', {
+                        className: 'space-y-4'
+                    }, [
+                        React.createElement('h3', {
+                            key: 'title',
+                            className: 'font-mono text-lg'
+                        }, 'Data Analysis Tools'),
+                        React.createElement('p', {
+                            key: 'description',
+                            className: 'text-muted-foreground'
+                        }, 'Advanced analysis tools for network data, including ML analysis, statistical processing, and visualization.')
+                    ]) : null)
+                ])),
+                
+                // Footer
+                React.createElement('footer', {
+                    key: 'footer',
+                    className: 'border-t py-4 text-center text-muted-foreground font-mono text-sm bg-card'
+                }, React.createElement('div', {
+                    className: 'container mx-auto px-4'
+                }, [
+                    React.createElement('div', {
+                        key: 'brand',
+                        className: 'text-center'
+                    }, [
+                        React.createElement('span', {
+                            key: 'name',
+                            className: 'lark-brand'
+                        }, 'lark'),
+                        ` internet tree © ${new Date().getFullYear()}.`
+                    ]),
+                    React.createElement('div', {
+                        key: 'disclaimer',
+                        className: 'text-center mt-1'
+                    }, 'data provided for illustrative purposes only.')
+                ]))
+            ]);
         };
 
         // Render the app
-        ReactDOM.render(<App />, document.getElementById('root'));
+        ReactDOM.render(React.createElement(App), document.getElementById('root'));
     </script>
 </body>
 </html>
