@@ -5,7 +5,7 @@
 A comprehensive web application for analyzing and visualizing internet governance structures, website trace routes, and network data flow.
 
 
-4. Open [http://localhost:3000](http://localhost:3000) to view the application.
+4. Open to view the application.
 
 ##  Project Structure
 
